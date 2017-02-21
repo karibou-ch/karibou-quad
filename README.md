@@ -1,8 +1,10 @@
 # Caractérisation de la qualité d'un réseau alimentaire décentralisé (QAD)
 > chèque d’innovation 2013-2016 - Conseils en recherche et en innovation pour PME
 
-![](https://www.kti.admin.ch/kti/fr/_jcr_content/logo/image.imagespooler.png/1433344096335/logo.png)
-![](http://campus.hesge.ch/milano2015/img/logos/logohepia.png)
+|![](https://www.kti.admin.ch/kti/fr/_jcr_content/logo/image.imagespooler.png/1433344096335/logo.png)   | ![](http://campus.hesge.ch/milano2015/img/logos/logohepia.png)  |
+|---|---|
+
+
 ## Problème à résoudre
 
 Jusqu’à présent la technologie utilisée dans la chaîne alimentaire a été principalement orientée vers
@@ -120,6 +122,3 @@ General understanding of any of these:
 - TravisCI & continuous integration
 - NPM packaging systems
 
-
- 
-# karibou-quad
