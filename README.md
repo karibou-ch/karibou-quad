@@ -75,7 +75,12 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
       "pseudo": "f**i",
       "created": "2014-12-09T23:28:45.138Z"
     },
-    "vendors": [{"slug": "les-fromages-de-gaetan"},...],
+    "vendors": [{
+          "slug": "les-fromages-de-gaetan",
+          "discount":2.90
+        },
+        ...
+    ],
     "items": [
       {
         "title": "Mini chevrot",
@@ -85,9 +90,14 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
         "price": 4.9,
         "qty": 1,
         "category": "Produits laitiers"
+        "issue": "issue_missing_product",
+        "status": "failure"
       },
       ...
 ``` 
+* `items.status` is one of `"failure", "fulfilled"`
+* `items.issue` is one of `"issue_missing_client_id", "issue_missing_product", "issue_missing_validation", "issue_missing_customer_support", "issue_wrong_packing", "issue_wrong_product", "issue_wrong_client_id", "issue_wrong_product_quality", "issue_late_delivry"`
+* `discount` is the amount the seller offer to the customer for this order
 
 # Advice for Students
 
