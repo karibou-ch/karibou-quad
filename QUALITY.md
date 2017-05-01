@@ -1,16 +1,16 @@
 ## Elements 
-* Déterminer le niveau du problème `order.items.$.fulfillment.issue`
+* Déterminer le niveau d'un problème `order.items.$.fulfillment.issue`
   * `"issue_no_issue"` **== pas grâve/0** , 
   * `"issue_missing_product"` **== problématique/1**, 
   * `"issue_wrong_product_quality"` et `"items.status===failure"` **== très problématique/2**,
-  * `"issue_wrong_product_quality"` et `"items.status===fulfilled"` **== létal/4**,
+  * `"issue_wrong_product_quality"` et `"items.status===fulfilled"` **== létal/4**,  
 * Déterminer si une boutique surfacture les produits
   * `DIFF%(order.items.$.finalprice,order.items.$.price)`
 * Déterminer le risque d’une boutique de compromettre le marketplace
   * `order.created` 
   * `order.items.$.fulfillment.issue!=='issue_no_issue'`, 
   * `order.items.$.fulfillment.status==='failed'`
-  * `order.oid` vérifier si pour la même commande il y a plusieurs erreurs, de la même boutique
+  * `order.oid` *vérifier si pour la même commande il y a plusieurs erreurs, de la même boutique*
 * Évaluer la disponibilité d’un produit dans l'année.
   * `month(order.created)`
   * `order.items.$.sku`
@@ -32,7 +32,6 @@
   * `order.items.$.fulfillment.issue!=='issue_no_issue'` ET `order.items.$.vendor`, 
   * `sum(order.items.$.finalprice)` ET `fulfilled` 
   * `order.customer.likes`
-
 
 ## TODO (on a pas encore les datas)
 * Évaluer la qualité d’un hub logistique (timing de la collecte, validation, qualité * des sacs (trop de plastique, oeufs cassés, tomates écrasées…) en fonction des * retours clients, timing de la préparation des sacs (données à ajouter).
