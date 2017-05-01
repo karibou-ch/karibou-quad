@@ -132,3 +132,16 @@ General understanding of any of these:
 - TravisCI & continuous integration
 - NPM packaging systems
 
+
+# Milestones
+project runs from 1st of May 2017 to 2nd of June 2017 approximately (~5 weeks)
+- Information retrieval ~ 1 week
+  - state of the art, analysis of existing systems, ... 
+- Analysis of the problem ~ 1 week
+  - analysing data structure, define useful input and output variables/attributes
+- Implementation of a mapping function ~ 1 week
+  - from existing data structure to generic matrix based structure
+  - readable from [Weka](http://www.cs.waikato.ac.nz/ml/weka/)
+- Use machine learning algorithms with Weka ~ min 2 weeks
+  - define rules
+  - define score
