@@ -74,6 +74,7 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
       "id": 2180215629900685,
       "pseudo": "f**i",
       "created": "2014-12-09T23:28:45.138Z"
+      "likes":[] /** prefered SKU */
     },
     "vendors": [{
           "slug": "les-fromages-de-gaetan",
@@ -88,6 +89,7 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
         "vendor": "les-fromages-de-gaetan",
         "image": "//uploadcare.com/uuid",
         "price": 4.9,
+        "finalprice": 4.9, /** Diff between order estimation and captured amount*/
         "qty": 1,
         "category": "Produits laitiers"
         "issue": "issue_missing_product",
