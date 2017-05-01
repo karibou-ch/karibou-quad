@@ -95,8 +95,12 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
       },
       ...
 ``` 
-* `items.status` is one of `"failure", "fulfilled"`
-* `items.issue` is one of `"issue_missing_client_id", "issue_missing_product", "issue_missing_validation", "issue_missing_customer_support", "issue_wrong_packing", "issue_wrong_product", "issue_wrong_client_id", "issue_wrong_product_quality", "issue_late_delivry"`
+* un article d'une commande `items.status` à le statut `"failure", "fulfilled"`
+* lors d'une annulation, il peut y avoir le problème `items.issue` suivant
+ * `"issue_no_issue"` **== pas grâve/0** , 
+ * `"issue_missing_product"` **== problématique/1**, 
+ * `"issue_wrong_product_quality"` et `"items.status===failure"` **== très problématique/2**,
+ * `"issue_wrong_product_quality"` et `"items.status===fulfilled"` **== létal/4**,
 * `discount` is the amount the seller offer to the customer for this order
 
 # Advice for Students
