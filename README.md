@@ -75,7 +75,12 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
       "pseudo": "f**i",
       "created": "2014-12-09T23:28:45.138Z"
     },
-    "vendors": [{"slug": "les-fromages-de-gaetan"},...],
+    "vendors": [{
+          "slug": "les-fromages-de-gaetan",
+          "discount":2.90
+        },
+        ...
+    ],
     "items": [
       {
         "title": "Mini chevrot",
@@ -85,9 +90,14 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
         "price": 4.9,
         "qty": 1,
         "category": "Produits laitiers"
+        "issue": "issue_missing_product",
+        "status": "failure"
       },
       ...
 ``` 
+* `items.status` is one of `"failure", "fulfilled"`
+* `items.issue` is one of `"issue_missing_client_id", "issue_missing_product", "issue_missing_validation", "issue_missing_customer_support", "issue_wrong_packing", "issue_wrong_product", "issue_wrong_client_id", "issue_wrong_product_quality", "issue_late_delivry"`
+* `discount` is the amount the seller offer to the customer for this order
 
 # Advice for Students
 
@@ -122,3 +132,16 @@ General understanding of any of these:
 - TravisCI & continuous integration
 - NPM packaging systems
 
+
+# Milestones
+project runs from 1st of May 2017 to 2nd of June 2017 approximately (~5 weeks)
+- Information retrieval ~ 1 week
+  - state of the art, analysis of existing systems, ... 
+- Analysis of the problem ~ 1 week
+  - analysing data structure, define useful input and output variables/attributes
+- Implementation of a mapping function ~ 1 week
+  - from existing data structure to generic matrix based structure
+  - readable from [Weka](http://www.cs.waikato.ac.nz/ml/weka/)
+- Use machine learning algorithms with Weka ~ min 2 weeks
+  - define rules
+  - define score
