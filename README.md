@@ -38,20 +38,7 @@ Mentors: Florent Gluck, Olivier Evalet
 
 
 ## Task Idea
-* un produit souvent acheté gagne du poids (la valeur individuelle vs la valeur globale)
-* un produit souvent upvoté gagne du poids
-* un upvote a moins de poids qu'un achat récurrent
-* le calcul du poids est une fonction du temps
-* une boutique hérite du poids de ses produits
-* une boutique perd du poids lorsqu'elle annule un article commandé par un client
-* une boutique perd du poids lorsqu'un article est manquant à la commande (implique un retour client)
-* une boutique perd du poids lorsqu'un article est mal emballé (implique un retour client)
-* une boutique perd du poids lorsqu'un article est de mauvaise qualité (implique un retour client)
-* la réputation peut donner lieu à des sanctions ou des récompenses (important)
-* un client gagne en réputation lorsqu'il passe souvent des commandes
-* un client gagne en réputation lorsqu'il évalue la commande
-* un client peut se tromper sur l'évaluation d'un produit (comment prendre en compte les faux négatifs)
-* une commande est de meilleur qualité dans certaines circonstances (exemple, en hiver c'est plus facile)
+* [QUALITY.md](QUALITY.md)
 
 ## Expected results
 * From an initial set of possible models and hypothesis, what is the most appropriate model to fit our data
@@ -106,15 +93,7 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
   * `"issue_wrong_product_quality"` et `"items.status===fulfilled"` **== létal/4**,
 * `discount` is the amount the seller offer to the customer for this order
 
-# Advice for Students
 
-If you are a student and interested in working on karibou.ch project as part of GSoC then please read the information below, as well as the GSoC program information provided by Google, including the [student manual](https://developers.google.com/open-source/gsoc/resources/manual) and [timeline](https://developers.google.com/open-source/gsoc/timeline). 
-
-* I found a great project! Contact us, we are active on [gitter](https://gitter.im/karibou-ch/). Just drop by and leave us a message!
-* I have an own project idea!  Superb! We recommend you submit your idea as a [GitHub Issues](https://github.com/karibou-ch/karibou-ml-userx/issues).
-
-## Guidelines & requirements
-Potential candidates should to take a look at [GitHub Issues](https://github.com/karibou-ch/karibou-ml-userx/issues). It can help you get some idea how things would work during the GSoC.
 
 #### Basic requirements
 
