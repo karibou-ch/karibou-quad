@@ -78,7 +78,8 @@ with open('../tests/data/orders.json') as json_file:
                 'nb_issues': nb_issues,
                 'nb_transactions': nb_transactions,
                 'amount': amount,
-                'price_diff': price_diff 
+                'price_diff': price_diff,
+                'issues_rate': nb_issues/nb_transactions*100
             } )
         
     export_to_csv(vendors_customers_details, 'vendors_customers.csv')
