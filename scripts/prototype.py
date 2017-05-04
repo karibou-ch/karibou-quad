@@ -34,6 +34,8 @@ with open('../tests/data/orders.json') as json_file:
 
     def map_transaction(transaction):
         def map_item(item):
+
+            # Details structure to export:
             return { 
                 'finalprice': item['finalprice'],
                 'vendor': item['vendor'],
@@ -64,6 +66,7 @@ with open('../tests/data/orders.json') as json_file:
             amount = sum([ mi['finalprice'] for mi in mis ])
             price_diff = sum([ mi['price_diff'] for mi in mis ])
 
+            # Details structure to export:
             vendors_customers_details.append( {
                 'vendor': vendor,
                 'customer': customer,
@@ -88,6 +91,7 @@ with open('../tests/data/orders.json') as json_file:
         nb_customers = len( set( [ mi['customer'] for mi in mis ] ))
         price_diff = sum([ mi['price_diff'] for mi in mis ])
 
+        # Details structure to export:
         vendors_details.append( { 
             'vendor': k,
             'nb_issues': nb_issues,
@@ -111,6 +115,7 @@ with open('../tests/data/orders.json') as json_file:
         nb_vendors = len( set( [ mi['vendor'] for mi in mis ] ))
         price_diff = sum([ mi['price_diff'] for mi in mis ])
 
+        # Details structure to export:
         customers_details.append( { 
             'customer': k,
             'nb_issues': nb_issues,
