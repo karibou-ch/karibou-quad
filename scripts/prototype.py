@@ -14,6 +14,8 @@ def export_to_csv(dictionnary, filename):
         dict_writer.writerows(dictionnary)
 
 with open('../tests/data/orders.json') as json_file:
+
+    # Prepare and transform transacions/items -------------------------------------------------------------------------------
     transactions = json.load(json_file)
 
     def add_transaction_info_on_item(item, transaction):        
@@ -27,9 +29,8 @@ with open('../tests/data/orders.json') as json_file:
     for t in transactions:
         t['items'] = [ add_transaction_info_on_item(i, t) for i in t['items'] ]
 
+    # Transactions details -------------------------------------------------------------------------------
     items = [ t['items'] for t in transactions]    
-
-    #items = reduce( lambda x, y: x+y, items )
 
     def map_transaction(transaction):
         def map_item(item):
@@ -49,7 +50,34 @@ with open('../tests/data/orders.json') as json_file:
     mapped_items = reduce( lambda x, y: x+y, mapped_items )
 
     export_to_csv(mapped_items, 'transactions.csv')
+    
 
+
+    # Vendors vs Customer details -------------------------------------------------------------------------------
+    vendors_customers_details = []
+    for customer, mis in groupby(sorted(mapped_items, key=lambda mi: mi['customer']), key=lambda mi: mi['customer']):
+        for vendor, mis in groupby(sorted(mis, key=lambda mi: mi['vendor']), key=lambda mi: mi['vendor']):
+
+            mis = list(mis)
+            nb_issues = sum([ mi['is_problematic'] for mi in mis ])
+            nb_transactions = len(list(mis))
+            amount = sum([ mi['finalprice'] for mi in mis ])
+            price_diff = sum([ mi['price_diff'] for mi in mis ])
+
+            vendors_customers_details.append( {
+                'vendor': vendor,
+                'customer': customer,
+                'nb_issues': nb_issues,
+                'nb_transactions': nb_transactions,
+                'amount': amount,
+                'price_diff': price_diff 
+            } )
+        
+    export_to_csv(vendors_customers_details, 'vendors_customers.csv')
+
+
+
+    # Vendors details ----------------------------------------------------------------------------------------------------
     vendors_details = []
     for k, mis in groupby(sorted(mapped_items, key=lambda mi: mi['vendor']), key=lambda mi: mi['vendor']):
         mis = list(mis)
@@ -58,12 +86,21 @@ with open('../tests/data/orders.json') as json_file:
         nb_transactions = len(list(mis))
         amount = sum([ mi['finalprice'] for mi in mis ])
         nb_customers = len( set( [ mi['customer'] for mi in mis ] ))
+        price_diff = sum([ mi['price_diff'] for mi in mis ])
 
-        vendors_details.append( { 'vendor': k, 'nb_issues': nb_issues, 'nb_transactions': nb_transactions, 'amount': amount, 'nb_customers': nb_customers } )
+        vendors_details.append( { 
+            'vendor': k,
+            'nb_issues': nb_issues,
+            'nb_transactions': nb_transactions,
+            'amount': amount,
+            'nb_customers': nb_customers,
+            'price_diff': price_diff
+        } )
 
     export_to_csv(vendors_details, 'vendors.csv')
 
 
+    # customers details ----------------------------------------------------------------------------------------------------
     customers_details = []
     for k, mis in groupby(sorted(mapped_items, key=lambda mi: mi['customer']), key=lambda mi: mi['customer']):
         mis = list(mis)
@@ -72,8 +109,16 @@ with open('../tests/data/orders.json') as json_file:
         nb_transactions = len(list(mis))
         amount = sum([ mi['finalprice'] for mi in mis ])
         nb_vendors = len( set( [ mi['vendor'] for mi in mis ] ))
+        price_diff = sum([ mi['price_diff'] for mi in mis ])
 
-        customers_details.append( { 'customer': k, 'nb_issues': nb_issues, 'nb_transactions': nb_transactions, 'amount': amount, 'nb_vendors': nb_vendors } )
+        customers_details.append( { 
+            'customer': k,
+            'nb_issues': nb_issues,
+            'nb_transactions': nb_transactions,
+            'amount': amount,
+            'nb_vendors': nb_vendors,
+            'price_diff': price_diff
+        } )
 
     export_to_csv(customers_details, 'customers.csv')
 
