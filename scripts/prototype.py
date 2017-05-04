@@ -58,14 +58,14 @@ with open('../tests/data/orders.json') as json_file:
 
     # Vendors vs Customer details -------------------------------------------------------------------------------
     vendors_customers_details = []
-    for customer, mis in groupby(sorted(mapped_items, key=lambda mi: mi['customer']), key=lambda mi: mi['customer']):
-        for vendor, mis in groupby(sorted(mis, key=lambda mi: mi['vendor']), key=lambda mi: mi['vendor']):
+    for customer, items in groupby(sorted(mapped_items, key=lambda mi: mi['customer']), key=lambda mi: mi['customer']):
+        for vendor, items in groupby(sorted(items, key=lambda mi: mi['vendor']), key=lambda mi: mi['vendor']):
 
-            mis = list(mis)
-            nb_issues = sum([ mi['is_problematic'] for mi in mis ])
-            nb_transactions = len(list(mis))
-            amount = sum([ mi['finalprice'] for mi in mis ])
-            price_diff = sum([ mi['price_diff'] for mi in mis ])
+            items = list(items)
+            nb_issues = sum([ mi['is_problematic'] for mi in items ])
+            nb_transactions = len(list(items))
+            amount = sum([ mi['finalprice'] for mi in items ])
+            price_diff = sum([ mi['price_diff'] for mi in items ])
 
             # Details structure to export:
             vendors_customers_details.append( {
@@ -83,14 +83,14 @@ with open('../tests/data/orders.json') as json_file:
 
     # Vendors details ----------------------------------------------------------------------------------------------------
     vendors_details = []
-    for k, mis in groupby(sorted(mapped_items, key=lambda mi: mi['vendor']), key=lambda mi: mi['vendor']):
-        mis = list(mis)
+    for k, items in groupby(sorted(mapped_items, key=lambda mi: mi['vendor']), key=lambda mi: mi['vendor']):
+        items = list(items)
 
-        nb_issues = sum([ mi['is_problematic'] for mi in mis ])
-        nb_transactions = len(list(mis))
-        amount = sum([ mi['finalprice'] for mi in mis ])
-        nb_customers = len( set( [ mi['customer'] for mi in mis ] ))
-        price_diff = sum([ mi['price_diff'] for mi in mis ])
+        nb_issues = sum([ mi['is_problematic'] for mi in items ])
+        nb_transactions = len(list(items))
+        amount = sum([ mi['finalprice'] for mi in items ])
+        nb_customers = len( set( [ mi['customer'] for mi in items ] ))
+        price_diff = sum([ mi['price_diff'] for mi in items ])
 
         # Details structure to export:
         vendors_details.append( { 
@@ -107,14 +107,14 @@ with open('../tests/data/orders.json') as json_file:
 
     # customers details ----------------------------------------------------------------------------------------------------
     customers_details = []
-    for k, mis in groupby(sorted(mapped_items, key=lambda mi: mi['customer']), key=lambda mi: mi['customer']):
-        mis = list(mis)
+    for k, items in groupby(sorted(mapped_items, key=lambda mi: mi['customer']), key=lambda mi: mi['customer']):
+        items = list(items)
 
-        nb_issues = sum([ mi['is_problematic'] for mi in mis ])
-        nb_transactions = len(list(mis))
-        amount = sum([ mi['finalprice'] for mi in mis ])
-        nb_vendors = len( set( [ mi['vendor'] for mi in mis ] ))
-        price_diff = sum([ mi['price_diff'] for mi in mis ])
+        nb_issues = sum([ mi['is_problematic'] for mi in items ])
+        nb_transactions = len(list(items))
+        amount = sum([ mi['finalprice'] for mi in items ])
+        nb_vendors = len( set( [ mi['vendor'] for mi in items ] ))
+        price_diff = sum([ mi['price_diff'] for mi in items ])
 
         # Details structure to export:
         customers_details.append( { 
