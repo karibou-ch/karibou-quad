@@ -104,7 +104,8 @@ with open('../tests/data/orders.json') as json_file:
             'nb_transactions': nb_transactions,
             'amount': amount,
             'nb_customers': nb_customers,
-            'price_diff': price_diff
+            'price_diff': price_diff,
+            'issues_rate': nb_issues/nb_transactions*100
         } )
 
     export_to_csv(vendors_details, 'vendors.csv')
@@ -128,7 +129,8 @@ with open('../tests/data/orders.json') as json_file:
             'nb_transactions': nb_transactions,
             'amount': amount,
             'nb_vendors': nb_vendors,
-            'price_diff': price_diff
+            'price_diff': price_diff,
+            'issues_rate': nb_issues/nb_transactions*100
         } )
 
     export_to_csv(customers_details, 'customers.csv')
