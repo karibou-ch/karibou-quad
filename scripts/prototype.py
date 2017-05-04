@@ -13,7 +13,7 @@ def export_to_csv(dictionnary, filename):
         dict_writer.writeheader()
         dict_writer.writerows(dictionnary)
 
-with open('./tests/data/orders.json') as json_file:
+with open('../tests/data/orders.json') as json_file:
     transactions = json.load(json_file)
 
     def add_transaction_info_on_item(item, transaction):        
