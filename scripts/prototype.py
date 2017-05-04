@@ -31,8 +31,8 @@ with open('../tests/data/orders.json') as json_file:
 
     #items = reduce( lambda x, y: x+y, items )
 
-    def reduce_transaction(transaction):
-        def reduce_item(item):
+    def map_transaction(transaction):
+        def map_item(item):
             return { 
                 'finalprice': item['finalprice'],
                 'vendor': item['vendor'],
@@ -42,10 +42,10 @@ with open('../tests/data/orders.json') as json_file:
                 'price_diff': item['finalprice'] - item['price']
             }
 
-        mapped_items = [ reduce_item(item) for item in transaction ]
+        mapped_items = [ map_item(item) for item in transaction ]
         return mapped_items
 
-    mapped_items = [ reduce_transaction(i) for i in items ]
+    mapped_items = [ map_transaction(i) for i in items ]
     mapped_items = reduce( lambda x, y: x+y, mapped_items )
 
     export_to_csv(mapped_items, 'transactions.csv')
