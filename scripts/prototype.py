@@ -60,7 +60,7 @@ with open('../tests/data/orders.json') as json_file:
 
         vendors_details.append( { 'vendor': k, 'nb_issues': nb_issues, 'nb_transactions': nb_transactions, 'amount': amount, 'nb_customers': nb_customers } )
 
-    export_to_csv(vendors_details, 'vendors2.csv')
+    export_to_csv(vendors_details, 'vendors.csv')
 
 
     customers_details = []
@@ -74,7 +74,7 @@ with open('../tests/data/orders.json') as json_file:
 
         customers_details.append( { 'customer': k, 'nb_issues': nb_issues, 'nb_transactions': nb_transactions, 'amount': amount, 'nb_vendors': nb_vendors } )
 
-    export_to_csv(customers_details, 'customers2.csv')
+    export_to_csv(customers_details, 'customers.csv')
 
 
 
