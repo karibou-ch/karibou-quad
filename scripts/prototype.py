@@ -38,7 +38,8 @@ with open('../tests/data/orders.json') as json_file:
                 'vendor': item['vendor'],
                 'customer': item['customer'],
                 'is_problematic': 1 if is_problematic(item) else 0,
-                'id_transaction': item['id_transaction']
+                'id_transaction': item['id_transaction'],
+                'price_diff': item['finalprice'] - item['price']
             }
 
         mapped_items = [ reduce_item(item) for item in transaction ]
