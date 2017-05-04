@@ -42,7 +42,8 @@ with open('../tests/data/orders.json') as json_file:
                 'customer': item['customer'],
                 'is_problematic': 1 if is_problematic(item) else 0,
                 'id_transaction': item['id_transaction'],
-                'price_diff': item['finalprice'] - item['price']
+                'price_diff': item['finalprice'] - item['price'],
+                'price_diff_rate': (item['finalprice'] - item['price'])/item['price']*100 if item['price'] != 0 else 0
             }
 
         mapped_items = [ map_item(item) for item in transaction ]
