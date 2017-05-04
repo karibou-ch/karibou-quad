@@ -2,6 +2,7 @@ import json
 import csv
 from functools import *
 from itertools import *
+from dateutil.parser import parse
 
 def is_problematic(item):
     return ('issue' in item.keys() and item['issue'] != 'issue_no_issue') or item['status'] == 'failure'
@@ -24,6 +25,7 @@ with open('../tests/data/orders.json') as json_file:
         oid = transaction['oid']
         item.update({ 'customer': customer })
         item.update({ 'id_transaction': oid })
+        item.update({ 'date': transaction['shipping']['when'] })
         return item
 
     for t in transactions:
@@ -35,6 +37,7 @@ with open('../tests/data/orders.json') as json_file:
     def map_transaction(transaction):
         def map_item(item):
 
+            date = parse(item['date'])
             # Details structure to export:
             return { 
                 'finalprice': item['finalprice'],
@@ -43,7 +46,8 @@ with open('../tests/data/orders.json') as json_file:
                 'is_problematic': 1 if is_problematic(item) else 0,
                 'id_transaction': item['id_transaction'],
                 'price_diff': item['finalprice'] - item['price'],
-                'price_diff_rate': (item['finalprice'] - item['price'])/item['price']*100 if item['price'] != 0 else 0
+                'price_diff_rate': (item['finalprice'] - item['price'])/item['price']*100 if item['price'] != 0 else 0,
+                'date': "{}.{}.{}".format(date.day, date.month, date.year)
             }
 
         mapped_items = [ map_item(item) for item in transaction ]
