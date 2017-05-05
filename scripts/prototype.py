@@ -150,7 +150,6 @@ with open('../tests/data/orders.json') as json_file:
             i['date'] = datetime.datetime.strptime(i['date'], '%d.%m.%Y').date()
 
         acc = []
-        acc2  = []
         axis = []
         # group by year
         for year, items in groupby(sorted(items, key=lambda mi: mi['date']), key=lambda mi: mi['date'].year):
@@ -162,29 +161,41 @@ with open('../tests/data/orders.json') as json_file:
                 nb_transactions = len(list(items))
                 amount = sum([ mi['finalprice'] for mi in items ])
                 price_diff = sum([ mi['price_diff'] for mi in items ])
-                nb_vendors = len( set( [ mi['vendor'] for mi in items ] ))
+                nb_vendors = len( set( [ mi['vendor'] for mi in items ] )) # ?
                 nb_customers = len( set( [ mi['customer'] for mi in items ] ))
 
-                acc.append( nb_transactions)
-                acc2.append(nb_issues)
+                acc.append( (nb_transactions, nb_issues, nb_customers, amount) )
                 axis.append('1.' + str(month) + '.' + str(year))
 
                 #print("\t", '1.' + str(month) + '.' + str(year), (nb_issues, nb_transactions, amount, price_diff, nb_vendors, nb_customers, nb_issues/nb_transactions*100))
 
-        fig, ax1 = plt.subplots()
+        plt.suptitle(vendor)
 
-        plt.xticks(rotation=70)
-        plt.xticks(range(len(axis)), axis)
 
-        ax1.plot(acc)
+        txt = ["transactions", "issues", "consommateurs", "montant"]
+        for i, t in enumerate(txt):
+            ax = plt.subplot(2,2,i+1)
+            plt.xticks(rotation=70)
+            plt.xticks(range(len(axis)), axis)
+            ax.plot(list(zip(*acc))[i])
+            ax.set_title(t)
+            plt.sca(ax)
+            plt.xticks(rotation=70)
+            plt.xticks(range(len(axis)), axis)
 
-        ax2 = ax1.twinx()
-        ax2.set_ylim([0,20])
-        ax2.plot(acc2, color='r')
-        ax2.tick_params('y', colors='r')
 
-        fig.tight_layout()
-        plt.title(vendor)
+
+
+
+
+
+    
+        #ax2 = ax1.twinx(2,1,2)
+        #ax2.set_ylim([0,max(plot)/4])
+        #ax2.plot(acc2, color='r')
+        #ax2.tick_params('y', colors='r')
+
+        plt.tight_layout()
         plt.savefig('./out/' + vendor + '.png')
         plt.clf()
         plt.close()
