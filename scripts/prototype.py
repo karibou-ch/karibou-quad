@@ -6,6 +6,8 @@ from dateutil.parser import parse
 import datetime
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+import math
 
 
 def is_problematic(item):
@@ -66,8 +68,15 @@ with open('../tests/data/orders.json') as json_file:
 
     # Vendors vs Customer details -------------------------------------------------------------------------------
     vendors_customers_details = []
+    c = []
+    v = []
+    mp = {}
     for customer, items in groupby(sorted(mapped_items, key=lambda mi: mi['customer']), key=lambda mi: mi['customer']):
+        c.append(customer)
+        if customer not in mp.keys():
+            mp[customer] = {}
         for vendor, items in groupby(sorted(items, key=lambda mi: mi['vendor']), key=lambda mi: mi['vendor']):
+            v.append(vendor)
 
             items = list(items)
             nb_issues = sum([ mi['is_problematic'] for mi in items ])
@@ -76,7 +85,7 @@ with open('../tests/data/orders.json') as json_file:
             price_diff = sum([ mi['price_diff'] for mi in items ])
 
             # Details structure to export:
-            vendors_customers_details.append( {
+            record = {
                 'vendor': vendor,
                 'customer': customer,
                 'nb_issues': nb_issues,
@@ -84,8 +93,33 @@ with open('../tests/data/orders.json') as json_file:
                 'amount': amount,
                 'price_diff': price_diff,
                 'issues_rate': nb_issues/nb_transactions*100
-            } )
+            } 
+            vendors_customers_details.append( record )
+            mp[customer][vendor] = record
         
+    c = list(set(c))
+    v = list(set(v))
+    x = []
+    y = []
+    area = []
+    color = []
+    i = 0
+    j = 0
+    for i, customer in enumerate(c):
+        for j, vendor in enumerate(v):
+            x.append(i)
+            y.append(j)
+            if vendor in mp[customer].keys():
+                area.append(mp[customer][vendor]['amount']**(0.8))
+                color.append(min(250, int(mp[customer][vendor]['issues_rate']*5+100)) if mp[customer][vendor]['issues_rate'] > 0 else 0)
+            else:
+                area.append(0)
+                color.append(0)
+
+    plt.scatter(x, y, s=area, c=color, alpha=0.5)
+    plt.savefig('vendor-constomer.png')
+
+
     export_to_csv(vendors_customers_details, 'vendors_customers.csv')
 
 
@@ -193,7 +227,10 @@ with open('../tests/data/orders.json') as json_file:
 
         plt.tight_layout()
         #plt.show()
-        plt.savefig('./out/' + vendor + '.png')
+        vendors_directory = 'vendors_stat'
+        if not os.path.exists(vendors_directory):
+            os.makedirs(vendors_directory)
+        plt.savefig('./' + vendors_directory + '/' + vendor + '.png')
         plt.clf()
         plt.close()
 
