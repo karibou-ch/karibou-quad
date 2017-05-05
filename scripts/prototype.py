@@ -5,7 +5,7 @@ from itertools import *
 from dateutil.parser import parse
 import datetime
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 
 def is_problematic(item):
@@ -164,43 +164,39 @@ with open('../tests/data/orders.json') as json_file:
                 nb_vendors = len( set( [ mi['vendor'] for mi in items ] )) # ?
                 nb_customers = len( set( [ mi['customer'] for mi in items ] ))
 
-                acc.append( (nb_transactions, nb_issues, nb_customers, amount) )
+                acc.append( (nb_transactions, nb_issues, nb_customers, amount, nb_issues/nb_transactions*100, price_diff) )
                 axis.append('1.' + str(month) + '.' + str(year))
 
-                #print("\t", '1.' + str(month) + '.' + str(year), (nb_issues, nb_transactions, amount, price_diff, nb_vendors, nb_customers, nb_issues/nb_transactions*100))
 
         plt.suptitle(vendor)
 
+        def movingaverage (values, window):
+            weights = np.repeat(1.0, window)/window
+            sma = np.convolve(values, weights, 'valid')
+            return sma
 
-        txt = ["transactions", "issues", "consommateurs", "montant"]
+        txt = ["transactions", "issues", "consommateurs", "montant", "issues rate", "price diff"]
         for i, t in enumerate(txt):
-            ax = plt.subplot(2,2,i+1)
+
+            ax = plt.subplot(2,3,i+1)
             plt.xticks(rotation=70)
             plt.xticks(range(len(axis)), axis)
             ax.plot(list(zip(*acc))[i])
+
+            ax.plot(movingaverage(list(zip(*acc))[i], 3 if len(acc) < 16 else 6), color='red')
+
             ax.set_title(t)
             plt.sca(ax)
             plt.xticks(rotation=70)
             plt.xticks(range(len(axis)), axis)
 
 
-
-
-
-
-
-    
-        #ax2 = ax1.twinx(2,1,2)
-        #ax2.set_ylim([0,max(plot)/4])
-        #ax2.plot(acc2, color='r')
-        #ax2.tick_params('y', colors='r')
-
         plt.tight_layout()
+        #plt.show()
         plt.savefig('./out/' + vendor + '.png')
         plt.clf()
         plt.close()
 
 
-    #export_to_csv(vendors_time_details, 'vendors_time.csv')
 
 
