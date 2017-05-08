@@ -1,0 +1,12 @@
+version: "2"
+services:
+    mongo-karibou:
+          image: mongo
+          ports:
+            - "27017:27017"
+          volumes:
+              - ./data:/data/seeds
+    mongo-seed:
+        build: .
+        links:
+            - mongo-karibou
