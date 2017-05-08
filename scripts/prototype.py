@@ -50,6 +50,8 @@ with open('../tests/data/orders.json') as json_file:
                 'vendor': item['vendor'],
                 'customer': item['customer'],
                 'is_problematic': 1 if is_problematic(item) else 0,
+                'missing': 1 if item['status'] == 'failure' or ('issue' in item.keys() and item['issue'] == 'issue_missing_product') else 0,
+                'qlty': 1 if 'issue' in item.keys() and item['issue'] == 'issue_wrong_product_quality' else 0,
                 'id_transaction': item['id_transaction'],
                 'price_diff': item['finalprice'] - item['price'],
                 'price_diff_rate': (item['finalprice'] - item['price'])/item['price']*100 if item['price'] != 0 else 0,
