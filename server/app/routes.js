@@ -8,7 +8,6 @@ module.exports = function(app) {
     app.get('/vendor/:id?', (req, res) => {
 
         const searchVendorId = req.params.id === undefined ? {} : { 'items.vendor': req.params.id };
-        console.log(searchVendorId);
 
         Transactions
             .aggregate( 
@@ -24,10 +23,13 @@ module.exports = function(app) {
                             items: 1,
                             'customer': 1,
                             issue_missing_product: {
-                                $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$eq: ['$items.status', 'failure'] } ] } , 1, 0 ]
+                                $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$and: [ {$eq: ['$items.status', 'failure'] }, {$eq: ['$items.issue', 'undefined'] }] }          ] } , 1, 0 ]
                             },
-                            issue_wrong_product_quality: {
-                                $cond: [ { $eq: ['$items.issue', 'issue_wrong_product_quality'] }, 1, 0 ]
+                            issue_wrong_product_quality_failure: {
+                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'failure'] }]}, 1, 0 ]
+                            },
+                            issue_wrong_product_quality_fulfilled: {
+                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'fulfilled'] }]}, 1, 0 ]
                             }
                         }
                     },
@@ -36,7 +38,8 @@ module.exports = function(app) {
                             _id: { vendor: '$items.vendor', customer_id: '$customer.id', customer_pseudo: '$customer.pseudo' },
                             amount: {$sum: '$items.finalprice'},
                             issue_missing_product: {$sum: '$issue_missing_product'},
-                            issue_wrong_product_quality: {$sum: '$issue_wrong_product_quality'},
+                            issue_wrong_product_quality_failure: {$sum: '$issue_wrong_product_quality_failure'},
+                            issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
                             nb_items: {$sum: 1}
                         }
                     },
@@ -47,14 +50,17 @@ module.exports = function(app) {
                                 $sum: 1
                             },
                             issue_missing_product: {$sum: '$issue_missing_product'},
-                            issue_wrong_product_quality: {$sum: '$issue_wrong_product_quality'},
+                            issue_wrong_product_quality_failure: {$sum: '$issue_wrong_product_quality_failure'},
+                            issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
                             nb_items: {$sum: '$nb_items'},
                             customers_details: {
                                 $push: {
                                     id: '$_id.customer_id',
                                     pseudo: '$_id.customer_pseudo',
                                     issue_missing_product: '$issue_missing_product',
-                                    issue_wrong_product_quality: '$issue_wrong_product_quality',
+                                    issue_wrong_product_quality_failure: '$issue_wrong_product_quality_failure',
+                                    issue_wrong_product_quality_fulfilled: '$issue_wrong_product_quality_fulfilled',
+                                    nb_items: '$nb_items'
                                 } 
                             }
                         }
@@ -68,8 +74,13 @@ module.exports = function(app) {
                         .chain(subjectDetails)
                         .map( 
                             i => { 
-                                i['score'] = i['issue_missing_product'] + i['issue_wrong_product_quality']*4;
+                                i['score'] = i['issue_missing_product'] + i['issue_wrong_product_quality_fulfilled']*2 + i['issue_wrong_product_quality_fulfilled']*4;
                                 i['score_rate'] = i['score'] / i['nb_items'] * 100;
+                                _.map(i['customers_details'], ( i => {
+                                    i['score'] = i['issue_missing_product'] + i['issue_wrong_product_quality_fulfilled']*2 + i['issue_wrong_product_quality_fulfilled']*4;
+                                    i['score_rate'] = i['score'] / i['nb_items'] * 100;
+                                    return i;
+                                }));
                                 return i;
                             }
                         )
