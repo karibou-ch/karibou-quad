@@ -4,7 +4,12 @@ var Transactions = connectionsubject.model('', {}, 'orders');
 
 module.exports = function(app) {
 
-    app.get('/vendor', (req, res) => {
+
+    app.get('/vendor/:id?', (req, res) => {
+
+        const searchVendorId = req.params.id === undefined ? {} : { 'items.vendor': req.params.id };
+        console.log(searchVendorId);
+
         Transactions
             .aggregate( 
                 [ 
@@ -12,9 +17,12 @@ module.exports = function(app) {
                         $unwind: "$items"
                     },
                     {
+                        $match: searchVendorId
+                    },
+                    {
                         $project: {
                             items: 1,
-                            'customer.id': 1,
+                            'customer': 1,
                             issue_missing_product: {
                                 $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$eq: ['$items.status', 'failure'] } ] } , 1, 0 ]
                             },
@@ -25,7 +33,7 @@ module.exports = function(app) {
                     },
                     {
                         $group: {
-                            _id: { vendor: '$items.vendor', customer_id: '$customer.id' },
+                            _id: { vendor: '$items.vendor', customer_id: '$customer.id', customer_pseudo: '$customer.pseudo' },
                             amount: {$sum: '$items.finalprice'},
                             issue_missing_product: {$sum: '$issue_missing_product'},
                             issue_wrong_product_quality: {$sum: '$issue_wrong_product_quality'},
@@ -40,7 +48,15 @@ module.exports = function(app) {
                             },
                             issue_missing_product: {$sum: '$issue_missing_product'},
                             issue_wrong_product_quality: {$sum: '$issue_wrong_product_quality'},
-                            nb_items: {$sum: '$nb_items'}
+                            nb_items: {$sum: '$nb_items'},
+                            customers_details: {
+                                $push: {
+                                    id: '$_id.customer_id',
+                                    pseudo: '$_id.customer_pseudo',
+                                    issue_missing_product: '$issue_missing_product',
+                                    issue_wrong_product_quality: '$issue_wrong_product_quality',
+                                } 
+                            }
                         }
                     }
                 ],
@@ -100,9 +116,17 @@ module.exports = function(app) {
                     } 
                 ],
                 (err, subjectDetails) =>  { 
-                    if (err) 
+                    if (err) {
                         res.send(err);
-                    res.json(subjectDetails); // return all nerds in JSON format
+                    }
+                    res.json(
+                        _.map(subjectDetails, record => {
+                            record['customer_id'] = record['_id']['customer_id'];
+                            record['vendor_name'] = record['_id']['name'];
+                            delete record['_id'];
+                            return record;
+                        })
+                    );
                 }
         );
     });
