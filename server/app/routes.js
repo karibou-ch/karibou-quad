@@ -75,6 +75,7 @@ module.exports = function(app) {
                             issue_missing_product: {$sum: '$issue_missing_product'},
                             issue_wrong_product_quality_failure: {$sum: '$issue_wrong_product_quality_failure'},
                             issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
+                            amount: {$sum: '$amount'},
                             nb_items: {$sum: '$nb_items'},
                             customers_details: {
                                 $push: {
@@ -113,6 +114,7 @@ module.exports = function(app) {
                             issue_missing_product: 1,
                             issue_wrong_product_quality_failure: 1,
                             issue_wrong_product_quality_fulfilled: 1,
+                            amount: 1,
                             nb_items: 1,
                             customers_details: 1,
                             score: {
