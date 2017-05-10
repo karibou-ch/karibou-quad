@@ -1,0 +1,89 @@
+<h3> {{ name }}</h3>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--4-col">
+        <h5>Chiffre de bases</h5>
+        <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <tbody>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Chiffre d'affaire</td>
+                <td>CHF {{ amount }} </td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Nombre d'articles vendus</td>
+                <td>{{ nbItems }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Nombre de consommateurs</td>
+                <td> {{ customers }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h5>Problèmes</h5>
+        <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <tbody>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Score en %</td>
+                <td>{{ scoreRate }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Score</td>
+                <td>{{ score }} </td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Produits manquants</td>
+                <td> {{ issue_mp }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Problèmes identifés par le vendeur</td>
+                <td> {{ issue_wpq_failure }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Problèmes identifés par l'acheteur</td>
+                <td> {{ issue_wpq_fulfilled }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="mdl-cell mdl-cell--4-col">
+        <app-barchart [data]="issuesChart"></app-barchart>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col">
+        <app-barchart [data]="amountChart"></app-barchart>
+    </div>
+
+
+
+
+    <div class="mdl-cell mdl-cell--12-col">
+        <h5>Détails clients</h5>
+        <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <thead>
+                <th>Pseudo</th>
+                <th>Score %</th>
+                <th>Score</th>
+                <th>Articles vendus</th>
+                <th>Produits manquants</th>
+                <th>Problèmes identifiés par le vendeur</th>
+                <th>Problèmes identifiés par l'acheteur</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let customer of details">
+                <td class="mdl-data-table__cell--non-numeric">{{customer.pseudo}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{customer.score_rate}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{customer.score}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{customer.nb_items}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{customer.issue_missing_product}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{customer.issue_wrong_product_quality_failure}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{customer.issue_wrong_product_quality_fulfilled}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+    <div class="mdl-cell mdl-cell--8-col">
+    </div>
+</div>

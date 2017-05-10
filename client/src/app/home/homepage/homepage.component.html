@@ -1,0 +1,23 @@
+<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+    <div class="mdl-tabs__tab-bar">
+        <a href="#vendors-panel" class="mdl-tabs__tab is-active">Vendors</a>
+        <a href="#customers-panel" class="mdl-tabs__tab">Customers</a>
+    </div>
+
+    <div class="mdl-tabs__panel is-active" id="vendors-panel">
+
+        <ul class="demo-list-three mdl-list">
+            <div *ngFor="let vendor of vendors">
+                <app-vendor-line [vendor]="vendor"></app-vendor-line>
+            </div>
+        </ul>
+
+    </div>
+    <div class="mdl-tabs__panel" id="customers-panel">
+    </div>
+</div>
+
+
+
+
+
