@@ -5,14 +5,14 @@
     </span>
     <span class="mdl-list__item-secondary-content">
         <i class="material-icons mdl-list__item-icon">people</i>
-        {{vendor.customers}}
+        <div class="text">{{vendor.customers}}</div>
     </span>
     <span class="mdl-list__item-secondary-content">
         <i class="material-icons mdl-list__item-icon">attach_money</i>
-        {{vendor.amount}}
+        <div class="text">{{vendor.amount}}</div>
     </span>
     <span class="mdl-list__item-secondary-content" [ngClass]="{warning: isWarning(), danger: isDanger()}">
         <i class="material-icons mdl-list__item-icon" [ngClass]="{warning: isWarning(), danger: isDanger()}">warning</i>
-        {{vendor.score_rate}}
+        <div class="text">{{vendor.score_rate}}</div>
     </span>
 </li>
