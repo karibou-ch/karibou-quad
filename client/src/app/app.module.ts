@@ -29,12 +29,8 @@ import { VendorListComponent } from './vendor/vendor-list/vendor-list.component'
     MdlModule,
     RouterModule.forRoot([
       {
-        path: 'home',
-        component: HomepageComponent
-      },
-      {
         path: '',
-        redirectTo: '/home',
+        redirectTo: '/vendor',
         pathMatch: 'full'
       },
       {
