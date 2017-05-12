@@ -23,6 +23,7 @@ export class VendorComponent implements OnInit {
   private issue_wpq_fulfilled: number = 0;
   private details: any[] = [];
   private impactedCustomers: number = 0;
+  private impactedCustomersRate: number = 0;
 
   private allScoreRate: number = 0;
   private allAmount: number = 1;
@@ -50,6 +51,7 @@ export class VendorComponent implements OnInit {
         this.issue_wpq_fulfilled = vendor.issue_wrong_product_quality_fulfilled;
         this.details = _.chain(vendor.customers_details).forEach( v => { v.score_rate = Math.round(v.score_rate*10)/10}).sortBy('score_rate').reverse().value();
         this.impactedCustomers = _.chain(this.details).filter(d => d.score_rate > 0).value().length;
+        this.impactedCustomersRate = Math.round(this.impactedCustomers/this.customers*1000)/10;
       }
     );
 

@@ -10,6 +10,7 @@ import { VendorLineComponent } from './home/vendor-line/vendor-line.component';
 import { RouterModule } from '@angular/router';
 import { VendorComponent } from './vendor/vendor/vendor.component';
 import { BarchartComponent } from './charts/barchart/barchart.component';
+import { VendorListComponent } from './vendor/vendor-list/vendor-list.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { BarchartComponent } from './charts/barchart/barchart.component';
     HomepageComponent,
     VendorLineComponent,
     VendorComponent,
-    BarchartComponent
+    BarchartComponent,
+    VendorListComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,10 @@ import { BarchartComponent } from './charts/barchart/barchart.component';
         path: '',
         redirectTo: '/home',
         pathMatch: 'full'
+      },
+      {
+        path: 'vendor',
+        component: VendorListComponent
       },
       {
         path: 'vendor/:id',

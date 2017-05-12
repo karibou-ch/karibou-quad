@@ -1,23 +1,28 @@
-<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-    <div class="mdl-tabs__tab-bar">
-        <a href="#vendors-panel" class="mdl-tabs__tab is-active">Vendors</a>
-        <a href="#customers-panel" class="mdl-tabs__tab">Customers</a>
-    </div>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Karibu-quad</span>
+        </div>
+        <div class="btn-menu">
+            <a class="mdl-layout__tab"
+               routerLink='/vendor'
+               routerLinkActive='is-active'
+               [routerLinkActiveOptions]="{exact: true}">Vendors</a>
+            <a class="mdl-layout__tab"
+               routerLink='/vendor/mediterraneo'
+               routerLinkActive='is-active'
+               [routerLinkActiveOptions]="{exact: true}">Test</a>
+        </div>
 
-    <div class="mdl-tabs__panel is-active" id="vendors-panel">
+    </header>
 
-        <ul class="demo-list-three mdl-list">
-            <div *ngFor="let vendor of vendors">
-                <app-vendor-line [vendor]="vendor"></app-vendor-line>
+        <div class="page-content" style="padding-left:100px;">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <router-outlet></router-outlet>
+                </div>
             </div>
-        </ul>
+        </div>
 
-    </div>
-    <div class="mdl-tabs__panel" id="customers-panel">
-    </div>
 </div>
-
-
-
-
 
