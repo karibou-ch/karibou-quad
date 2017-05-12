@@ -76,7 +76,7 @@ export class BarchartComponent implements OnInit {
     // update scales & axis
     this.xScale.domain(this.data.map(d => d[0]));
     this.yScale.domain([0, d3.max(this.data, d => d[1])]);
-    this.colors.domain([0, this.data.length]);
+    this.colors.domain([0, this.data.length-1]);
     this.xAxis.transition().call(d3.axisBottom(this.xScale));
     this.yAxis.transition().call(d3.axisLeft(this.yScale));
 

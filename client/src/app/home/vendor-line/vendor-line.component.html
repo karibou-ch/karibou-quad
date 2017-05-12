@@ -15,4 +15,8 @@
         <i class="material-icons mdl-list__item-icon" [ngClass]="{warning: isWarning(), danger: isDanger()}">warning</i>
         <div class="text">{{vendor.score_rate}}</div>
     </span>
+    <span class="mdl-list__item-secondary-content" [ngClass]="{warning: isWarning(), danger: isDanger()}">
+        <i class="material-icons mdl-list__item-icon" [ngClass]="{warning: isWarning(), danger: isDanger()}">warning</i>
+        <div class="text">{{vendor.score_transactions_rate}}</div>
+    </span>
 </li>

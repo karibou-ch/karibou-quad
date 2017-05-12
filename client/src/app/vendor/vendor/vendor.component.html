@@ -48,13 +48,23 @@
     </div>
 
     <div class="mdl-cell mdl-cell--4-col">
+        <h5>Taux d'erreurs par produits</h5>
         <app-barchart [data]="issuesChart"></app-barchart>
     </div>
     <div class="mdl-cell mdl-cell--4-col">
-        <app-barchart [data]="amountChart"></app-barchart>
+        <h5>Taux d'erreurs par transaction</h5>
+        <app-barchart [data]="issuesTransactionsChart"></app-barchart>
     </div>
 
 
+    <div class="mdl-cell mdl-cell--4-col">
+    </div>
+    <div class="mdl-cell mdl-cell--4-col">
+    </div>
+    <div class="mdl-cell mdl-cell--4-col">
+        <h5>Chiffre d'affaire</h5>
+        <app-barchart [data]="amountChart"></app-barchart>
+    </div>
 
 
     <div class="mdl-cell mdl-cell--12-col">
@@ -62,7 +72,7 @@
         <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
             <thead>
                 <th>Pseudo</th>
-                <th>Score %</th>
+                <th>Score % (items)</th>
                 <th>Score</th>
                 <th>Articles vendus</th>
                 <th>Produits manquants</th>
@@ -81,9 +91,6 @@
             </tr>
             </tbody>
         </table>
-
-
     </div>
-    <div class="mdl-cell mdl-cell--8-col">
-    </div>
+
 </div>
