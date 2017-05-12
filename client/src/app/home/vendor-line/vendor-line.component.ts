@@ -12,14 +12,31 @@ export class VendorLineComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.vendor['impacted_customers_rate'] = Math.round(this.vendor['impacted_customers'] / this.vendor['customers'] * 1000)/10;
   }
 
-  private isDanger(): boolean {
+  private isItemDanger(): boolean {
     return this.vendor.score_rate >= 4;
   }
 
-  private isWarning(): boolean {
+  private isItemWarning(): boolean {
     return this.vendor.score_rate >= 2 && this.vendor.score_rate < 4;
+  }
+
+  private isTransactionDanger(): boolean {
+    return this.vendor.score_transactions_rate >= 4;
+  }
+
+  private isTransactionWarning(): boolean {
+    return this.vendor.score_transactions_rate >= 2 && this.vendor.score_transactions_rate < 4;
+  }
+
+  private isCustomerDanger(): boolean {
+    return this.vendor.impacted_customers_rate >= 5;
+  }
+
+  private isCustomerWarning(): boolean {
+    return this.vendor.impacted_customers_rate >= 2 && this.vendor.impacted_customers_rate < 5;
   }
 
 }

@@ -13,6 +13,10 @@
                 <td>{{ nbItems }}</td>
             </tr>
             <tr>
+                <td class="mdl-data-table__cell--non-numeric">Nombre de transactions</td>
+                <td>{{ nbTransactions }}</td>
+            </tr>
+            <tr>
                 <td class="mdl-data-table__cell--non-numeric">Nombre de consommateurs</td>
                 <td> {{ customers }}</td>
             </tr>
@@ -23,12 +27,20 @@
         <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
             <tbody>
             <tr>
-                <td class="mdl-data-table__cell--non-numeric">Score en %</td>
+                <td class="mdl-data-table__cell--non-numeric">Score</td>
+                <td>{{ score }} </td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Score en % (transactions)</td>
+                <td>{{ scoreTransactionsRate }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Score en % (items)</td>
                 <td>{{ scoreRate }}</td>
             </tr>
             <tr>
-                <td class="mdl-data-table__cell--non-numeric">Score</td>
-                <td>{{ score }} </td>
+                <td class="mdl-data-table__cell--non-numeric">Clients impactés</td>
+                <td>{{ impactedCustomers }} ({{ impactedCustomers / customers * 100}} %)</td>
             </tr>
             <tr>
                 <td class="mdl-data-table__cell--non-numeric">Produits manquants</td>
@@ -52,7 +64,7 @@
         <app-barchart [data]="issuesChart"></app-barchart>
     </div>
     <div class="mdl-cell mdl-cell--4-col">
-        <h5>Taux d'erreurs par transaction</h5>
+        <h5>Taux d'erreurs par transactions</h5>
         <app-barchart [data]="issuesTransactionsChart"></app-barchart>
     </div>
 
@@ -60,6 +72,8 @@
     <div class="mdl-cell mdl-cell--4-col">
     </div>
     <div class="mdl-cell mdl-cell--4-col">
+        <h5>Taux d'erreurs par clients</h5>
+        <app-barchart [data]="customersChart"></app-barchart>
     </div>
     <div class="mdl-cell mdl-cell--4-col">
         <h5>Chiffre d'affaire</h5>
