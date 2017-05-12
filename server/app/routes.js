@@ -28,6 +28,55 @@ module.exports = function(app) {
             })
     });
 
+    app.get('/test', (req, res) => {
+
+        Transactions
+            .aggregate([
+                    { 
+                        $unwind: "$items"
+                    },
+                    {
+                        $project: {
+                            items: 1,
+                            oid: "$oid",
+                            'customer': 1,
+                            issue_missing_product: {
+                                $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$and: [ {$eq: ['$items.status', 'failure'] }, {$eq: ['$items.issue', 'undefined'] }] }          ] } , 1, 0 ]
+                            },
+                            issue_wrong_product_quality_failure: {
+                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'failure'] }]}, 1, 0 ]
+                            },
+                            issue_wrong_product_quality_fulfilled: {
+                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'fulfilled'] }]}, 1, 0 ]
+                            },
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: { vendor: '$items.vendor', customer_id: '$customer.id', customer_pseudo: '$customer.pseudo' },
+                            amount: {$sum: '$items.finalprice'},
+                            issue_missing_product: {$sum: '$issue_missing_product'},
+                            issue_wrong_product_quality_failure: {$sum: '$issue_wrong_product_quality_failure'},
+                            issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
+                            nb_items: {$sum: 1},
+                            transactions: {$addToSet: "$oid"}
+                        },
+                    },
+                    {
+                        $project: {
+                            transactions: {$size:"$transactions"}
+                        }
+                    }
+
+                ],
+                (err, subjectDetails) =>  { 
+                    if (err) {
+                        res.send(err);
+                    }
+                    res.json(subjectDetails);
+                });
+    });
+
     app.get('/vendors/:id?', (req, res) => {
 
         const searchVendorId = req.params.id === undefined ? {} : { 'items.vendor': req.params.id };
@@ -45,6 +94,7 @@ module.exports = function(app) {
                         $project: {
                             items: 1,
                             'customer': 1,
+                            oid: 1,
                             issue_missing_product: {
                                 $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$and: [ {$eq: ['$items.status', 'failure'] }, {$eq: ['$items.issue', 'undefined'] }] }          ] } , 1, 0 ]
                             },
@@ -63,7 +113,18 @@ module.exports = function(app) {
                             issue_missing_product: {$sum: '$issue_missing_product'},
                             issue_wrong_product_quality_failure: {$sum: '$issue_wrong_product_quality_failure'},
                             issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
-                            nb_items: {$sum: 1}
+                            nb_items: {$sum: 1},
+                            nb_transactions: {$addToSet: "$oid"},
+                        }
+                    },
+                    {
+                        $project: {
+                            amount: 1,
+                            issue_missing_product: 1,
+                            issue_wrong_product_quality_failure: 1,
+                            issue_wrong_product_quality_fulfilled: 1,
+                            nb_items: 1,
+                            nb_transactions: {$size:"$nb_transactions"}
                         }
                     },
                     {
@@ -77,14 +138,17 @@ module.exports = function(app) {
                             issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
                             amount: {$sum: '$amount'},
                             nb_items: {$sum: '$nb_items'},
+                            nb_transactions: {$sum: '$nb_transactions'},
                             customers_details: {
                                 $push: {
                                     id: '$_id.customer_id',
                                     pseudo: '$_id.customer_pseudo',
+                                    amount: '$amount',
                                     issue_missing_product: '$issue_missing_product',
                                     issue_wrong_product_quality_failure: '$issue_wrong_product_quality_failure',
                                     issue_wrong_product_quality_fulfilled: '$issue_wrong_product_quality_fulfilled',
                                     nb_items: '$nb_items',
+                                    nb_transactions: '$nb_transactions',
                                     score: {
                                         $add: [
                                             { $multiply: ['$issue_missing_product', 1] }, 
@@ -114,6 +178,7 @@ module.exports = function(app) {
                             issue_missing_product: 1,
                             issue_wrong_product_quality_failure: 1,
                             issue_wrong_product_quality_fulfilled: 1,
+                            nb_transactions: 1,
                             amount: 1,
                             nb_items: 1,
                             customers_details: 1,
@@ -124,12 +189,14 @@ module.exports = function(app) {
                     },
                     {
                         $addFields: {
-                            score_rate: { $multiply: [{$divide: ['$score', '$nb_items']}, 100] }
+                            score_rate: { $multiply: [{$divide: ['$score', '$nb_items']}, 100] },
+                            score_transactions_rate: { $multiply: [{$divide: ['$score', '$nb_transactions']}, 100] }
                         }
                     },
                     {
                         $sort: {
-                            'score_rate': -1
+                            'score_transactions_rate': -1,
+                            'amount': -1
                         }
                     }
                 ],
