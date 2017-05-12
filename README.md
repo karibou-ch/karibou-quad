@@ -131,3 +131,37 @@ project runs from 1st of May 2017 to 2nd of June 2017 approximately (~5 weeks)
 - Use machine learning algorithms with Weka ~ min 2 weeks
   - define rules
   - define score
+
+# JS ecosystem prototypes
+## Dependencies
+* npm
+* node
+* ng2-cli
+* docker
+* docker-compose
+
+## Run all the project
+Simulate the mongodb database:
+```
+cd test
+docker-compose up -d
+```
+
+Run the Rest API for the statistics requests
+```
+cd server
+npm install
+node server.js
+```
+
+Run the client dashboard:
+```
+cd client
+npm install
+ng serve
+```
+
+Watch the stats on localhost:4200. Enjoy!
+
+
+
