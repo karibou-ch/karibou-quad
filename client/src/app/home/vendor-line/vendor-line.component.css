@@ -24,6 +24,17 @@ li:hover {
 }
 
 .mdl-list__item-secondary-content {
-    width: 10%;
+    min-width: 9%;
 }
 
+.mdl-list__item {
+  padding: 6px 0 6px 0;
+}
+.mdl-list__item--three-line {
+  height: auto;
+}
+
+.mdl-list__item-secondary-content {
+  height: auto;
+  margin: 0;
+}

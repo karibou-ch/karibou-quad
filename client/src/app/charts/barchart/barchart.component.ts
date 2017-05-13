@@ -67,6 +67,8 @@ export class BarchartComponent implements OnInit {
       .attr('class', 'axis axis-x')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
       .call(d3.axisBottom(this.xScale));
+
+      
     this.yAxis = svg.append('g')
       .attr('class', 'axis axis-y')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
@@ -79,7 +81,14 @@ export class BarchartComponent implements OnInit {
     this.yScale.domain([0, d3.max(this.data, d => d[1])]);
     //this.colors.domain([0, this.data.length-1]);
     this.colors.domain([0, 1]);
-    this.xAxis.transition().call(d3.axisBottom(this.xScale));
+    this.xAxis.transition()
+        .call(d3.axisBottom(this.xScale))  
+        .selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end");
+    
+    
+    
     this.yAxis.transition().call(d3.axisLeft(this.yScale));
 
     let update = this.chart.selectAll('.bar')
@@ -95,6 +104,7 @@ export class BarchartComponent implements OnInit {
       .attr('width', d => this.xScale.bandwidth())
       .attr('height', d => this.height - this.yScale(d[1]))
       .style('fill', (d, i) => this.colors(i));
+
 
     // add new bars
     update
