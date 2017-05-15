@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {DatabaseService} from "../../core/database.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from 'lodash';
 
 @Component({
@@ -32,10 +32,26 @@ export class VendorComponent implements OnInit {
   private issuesTransactionsChart = [];
   private amountChart = [];
   private customersChart = [];
+  private issuesTypeChart = [];
 
-  constructor(private databaseService: DatabaseService, private route: ActivatedRoute) { }
+  constructor(private databaseService: DatabaseService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.init();
+    });
+
+  }
+
+  private init(): void {
+
+    this.issuesChart = [];
+    this.issuesTransactionsChart = [];
+    this.amountChart = [];
+    this.customersChart = [];
+    this.issuesTypeChart = [];
+
+
     this.databaseService.vendor(this.route.snapshot.params['id']).subscribe(
       vendor => {
         this.name = vendor._id;
@@ -50,7 +66,7 @@ export class VendorComponent implements OnInit {
         this.issue_wpq_failure = vendor.issue_wrong_product_quality_failure;
         this.issue_wpq_fulfilled = vendor.issue_wrong_product_quality_fulfilled;
         this.details = _.chain(vendor.customers_details).forEach( v => { v.score_rate = Math.round(v.score_rate*10)/10}).sortBy('score_rate').reverse().value();
-        this.impactedCustomers = _.chain(this.details).filter(d => d.score_rate > 0).value().length;
+        this.impactedCustomers = _.chain(this.details).filter(d => d.score > 0).value().length;
         this.impactedCustomersRate = Math.round(this.impactedCustomers/this.customers*1000)/10;
       }
     );
@@ -105,8 +121,14 @@ export class VendorComponent implements OnInit {
           .take(4)
           .map( v => [v._id, v.impacted_customers])
           .value();
-        this.customersChart.push([this.name, this.impactedCustomers]);
+        this.customersChart.push([this.name, this.impactedCustomersRate]);
         _.reverse(this.customersChart);
+
+        this.issuesTypeChart = [
+          ['Erreurs qualités (fulfilled)', this.issue_wpq_fulfilled],
+          ['Erreurs qualités (failure)', this.issue_wpq_failure],
+          ['Produits manquants', this.issue_mp]
+        ];
 
       }
     );
