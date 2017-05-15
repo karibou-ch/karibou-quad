@@ -28,10 +28,6 @@ export class PiechartComponent implements OnInit {
       this.myChart.destroy();
     }
 
-    for(var i = 0; i < 5; i++){
-      console.log(this.fillRgb(i, 5));
-    }
-
     const ctx = this.chartContainer.nativeElement;
     //const backgroundColors = ['rgba(255,0,0,0.5)'].concat(this.data.map( _ => 'rgba(153, 102, 255, 0.5)'));
     const backgroundColors = _.range(this.data.length).map( i => this.fillRgb(i, this.data.length, 0.5));
