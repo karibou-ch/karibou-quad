@@ -24,7 +24,8 @@ export class BarchartComponent implements OnInit {
   private margin: any = { top: 20, bottom: 20, left: 20, right: 20};
 
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.createChart();
@@ -68,7 +69,7 @@ export class BarchartComponent implements OnInit {
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
       .call(d3.axisBottom(this.xScale));
 
-      
+
     this.yAxis = svg.append('g')
       .attr('class', 'axis axis-y')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
@@ -82,13 +83,13 @@ export class BarchartComponent implements OnInit {
     //this.colors.domain([0, this.data.length-1]);
     this.colors.domain([0, 1]);
     this.xAxis.transition()
-        .call(d3.axisBottom(this.xScale))  
+        .call(d3.axisBottom(this.xScale))
         .selectAll("text")
         .attr("transform", "rotate(-45)")
         .style("text-anchor", "end");
-    
-    
-    
+
+
+
     this.yAxis.transition().call(d3.axisLeft(this.yScale));
 
     let update = this.chart.selectAll('.bar')

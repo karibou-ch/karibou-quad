@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { VendorComponent } from './vendor/vendor/vendor.component';
 import { BarchartComponent } from './charts/barchart/barchart.component';
 import { VendorListComponent } from './vendor/vendor-list/vendor-list.component';
-
+import { PiechartComponent } from './charts/piechart/piechart.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,8 @@ import { VendorListComponent } from './vendor/vendor-list/vendor-list.component'
     VendorLineComponent,
     VendorComponent,
     BarchartComponent,
-    VendorListComponent
+    VendorListComponent,
+    PiechartComponent
   ],
   imports: [
     BrowserModule,

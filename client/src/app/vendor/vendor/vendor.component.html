@@ -67,12 +67,13 @@
         <h5>Taux d'erreurs par transactions</h5>
         <app-barchart [data]="issuesTransactionsChart"></app-barchart>
     </div>
-    
+
 </div>
 <div class="mdl-grid">
 
 
     <div class="mdl-cell mdl-cell--4-col">
+      <app-piechart [data]="customersChart" [title]="'test'"></app-piechart>
     </div>
     <div class="mdl-cell mdl-cell--4-col">
         <h5>Taux d'erreurs par clients</h5>

@@ -1,28 +1,28 @@
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Karibu-quad</span>
-        </div>
-        <div class="btn-menu">
-            <a class="mdl-layout__tab"
-               routerLink='/vendor'
-               routerLinkActive='is-active'
-               [routerLinkActiveOptions]="{exact: true}">Vendors</a>
-            <a class="mdl-layout__tab"
-               routerLink='/vendor/mediterraneo'
-               routerLinkActive='is-active'
-               [routerLinkActiveOptions]="{exact: true}">Test</a>
-        </div>
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Karibu-quad</span>
+    </div>
+    <div class="btn-menu">
+      <a class="mdl-layout__tab"
+         routerLink='/vendor'
+         routerLinkActive='is-active'
+         [routerLinkActiveOptions]="{exact: false}">Vendors</a>
+      <a class="mdl-layout__tab"
+         routerLink='/vendor/mediterraneo'
+         routerLinkActive='is-active'
+         [routerLinkActiveOptions]="{exact: true}">Test</a>
+    </div>
 
-    </header>
+  </header>
 
-        <div class="page-content" style="padding-left:100px;">
-            <div class="mdl-grid">
-                <div class="mdl-cell mdl-cell--12-col">
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
-        </div>
+  <div class="page-content" style="padding-left:100px;">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 
 </div>
 
