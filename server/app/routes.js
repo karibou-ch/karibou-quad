@@ -47,6 +47,48 @@ module.exports = function(app) {
                 });
     });
 
+    app.get('/vendors/:id/date', (req, res) => {
+        Transactions
+            .aggregate([
+                    {$unwind: "$items"},
+                    {$match: { 'items.vendor': req.params.id }},
+                    {
+                        $addFields: {
+                            issue_missing_product: {
+                                $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$and: [ {$eq: ['$items.status', 'failure'] }, {$eq: ['$items.issue', 'undefined'] }] }          ] } , 1, 0 ]
+                            },
+                            issue_wrong_product_quality_failure: {
+                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'failure'] }]}, 1, 0 ]
+                            },
+                            issue_wrong_product_quality_fulfilled: {
+                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'fulfilled'] }]}, 1, 0 ]
+                            }
+                        }
+                    },
+                    {$addFields: { date: '$shipping.when' }},
+                    {
+                        $project: {
+                            items: 1,
+                            date: 1,
+                            issue_missing_product: 1,
+                            issue_wrong_product_quality_failure: 1,
+                            issue_wrong_product_quality_fulfilled: 1
+                        }
+                    }
+                ],
+                (err, subjectDetails) =>  {
+                    if (err) {
+                        res.send(err);
+                    }
+
+                    const date = _.groupBy(subjectDetails, i => [new Date(Date.parse(i['date'])).getFullYear(), new Date(Date.parse(i['date'])).getMonth()]);
+
+                    res.json(date);
+
+                }
+            );
+    });
+
     app.get('/vendors/:id?', (req, res) => {
 
         const searchVendorId = req.params.id === undefined ? {} : { 'items.vendor': req.params.id };
