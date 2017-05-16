@@ -10,6 +10,8 @@ import * as _ from 'lodash';
 })
 export class VendorComponent implements OnInit {
 
+  private vendor: any;
+
   private name: string = "";
   private amount: number = 0;
   private nbItems: number = 0;
@@ -21,7 +23,7 @@ export class VendorComponent implements OnInit {
   private issue_mp: number = 0;
   private issue_wpq_failure: number = 0;
   private issue_wpq_fulfilled: number = 0;
-  private details: any[] = [];
+  private customerDetails: any[] = [];
   private impactedCustomers: number = 0;
   private impactedCustomersRate: number = 0;
 
@@ -54,6 +56,7 @@ export class VendorComponent implements OnInit {
 
     this.databaseService.vendor(this.route.snapshot.params['id']).subscribe(
       vendor => {
+        this.vendor = vendor;
         this.name = vendor._id;
         this.amount = Math.round(vendor.amount*100)/100;
         this.nbItems = vendor.nb_items;
@@ -65,8 +68,8 @@ export class VendorComponent implements OnInit {
         this.issue_mp = vendor.issue_missing_product;
         this.issue_wpq_failure = vendor.issue_wrong_product_quality_failure;
         this.issue_wpq_fulfilled = vendor.issue_wrong_product_quality_fulfilled;
-        this.details = _.chain(vendor.customers_details).forEach( v => { v.score_rate = Math.round(v.score_rate*10)/10}).sortBy('score_rate').reverse().value();
-        this.impactedCustomers = _.chain(this.details).filter(d => d.score > 0).value().length;
+        this.customerDetails = _.chain(vendor.customers_details).forEach( v => { v.score_rate = Math.round(v.score_rate*10)/10}).sortBy('score_rate').reverse().value();
+        this.impactedCustomers = _.chain(this.customerDetails).filter(d => d.score > 0).value().length;
         this.impactedCustomersRate = Math.round(this.impactedCustomers/this.customers*1000)/10;
       }
     );

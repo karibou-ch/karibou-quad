@@ -88,29 +88,7 @@
 <div class="mdl-grid">
 
     <div class="mdl-cell mdl-cell--12-col">
-        <h5>Détails clients</h5>
-        <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
-            <thead>
-                <th>Pseudo</th>
-                <th>Score % (items)</th>
-                <th>Score</th>
-                <th>Articles vendus</th>
-                <th>Produits manquants</th>
-                <th>Problèmes identifiés par le vendeur</th>
-                <th>Problèmes identifiés par l'acheteur</th>
-            </thead>
-            <tbody>
-            <tr *ngFor="let customer of details">
-                <td class="mdl-data-table__cell--non-numeric">{{customer.pseudo}}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{customer.score_rate}}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{customer.score}}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{customer.nb_items}}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{customer.issue_missing_product}}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{customer.issue_wrong_product_quality_failure}}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{customer.issue_wrong_product_quality_fulfilled}}</td>
-            </tr>
-            </tbody>
-        </table>
+      <app-customer-list [customers]="customerDetails" [vendor]="vendor"></app-customer-list>
     </div>
 
 </div>

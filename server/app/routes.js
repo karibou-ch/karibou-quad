@@ -28,46 +28,16 @@ module.exports = function(app) {
             })
     });
 
-    app.get('/test', (req, res) => {
+    app.get('/transactions/:vendorid/:customerid', (req, res) => {
 
         Transactions
             .aggregate([
-                    { 
-                        $unwind: "$items"
-                    },
                     {
-                        $project: {
-                            items: 1,
-                            oid: "$oid",
-                            'customer': 1,
-                            issue_missing_product: {
-                                $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$and: [ {$eq: ['$items.status', 'failure'] }, {$eq: ['$items.issue', 'undefined'] }] }          ] } , 1, 0 ]
-                            },
-                            issue_wrong_product_quality_failure: {
-                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'failure'] }]}, 1, 0 ]
-                            },
-                            issue_wrong_product_quality_fulfilled: {
-                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'fulfilled'] }]}, 1, 0 ]
-                            },
-                        }
-                    },
-                    {
-                        $group: {
-                            _id: { vendor: '$items.vendor', customer_id: '$customer.id', customer_pseudo: '$customer.pseudo' },
-                            amount: {$sum: '$items.finalprice'},
-                            issue_missing_product: {$sum: '$issue_missing_product'},
-                            issue_wrong_product_quality_failure: {$sum: '$issue_wrong_product_quality_failure'},
-                            issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
-                            nb_items: {$sum: 1},
-                            transactions: {$addToSet: "$oid"}
+                        $match: {
+                            'customer.id': +req.params.customerid,
+                            'items.vendor': 'sandrine-guy-producteurs'
                         },
-                    },
-                    {
-                        $project: {
-                            transactions: {$size:"$transactions"}
-                        }
                     }
-
                 ],
                 (err, subjectDetails) =>  { 
                     if (err) {
@@ -259,11 +229,51 @@ module.exports = function(app) {
                 }
         );
     });
-    app.get('/transactions', (req, res) => {
+    app.get('/test', (req, res) => {
         // use mongoose to get all nerds in the database
         Transactions
-            .aggregate( 
-                [ { $unwind: "$items"}, { $project: { vendors: 0 } } ],
+            .aggregate(
+
+                [
+
+                                    {
+                        $unwind: "$items"
+                    },
+                    {
+                        $match: { 'items.vendor': 'sandrine-guy-producteurs' }
+                    },
+                    {
+                        $project: {
+                            items: 1,
+                            'customer': 1,
+                            oid: 1,
+                            issue_missing_product: {
+                                $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$and: [ {$eq: ['$items.status', 'failure'] }, {$eq: ['$items.issue', 'undefined'] }] }          ] } , 1, 0 ]
+                            },
+                            issue_wrong_product_quality_failure: {
+                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'failure'] }]}, 1, 0 ]
+                            },
+                            issue_wrong_product_quality_fulfilled: {
+                                $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'fulfilled'] }]}, 1, 0 ]
+                            }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: { vendor: '$items.vendor', customer_id: '$customer.id', customer_pseudo: '$customer.pseudo' },
+                            amount: {$sum: '$items.finalprice'},
+                            issue_missing_product: {$sum: '$issue_missing_product'},
+                            issue_wrong_product_quality_failure: {$sum: '$issue_wrong_product_quality_failure'},
+                            issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
+                            nb_items: {$sum: 1},
+                            nb_transactions: {$addToSet: "$oid"},
+                        }
+                    },
+
+
+                ],
+
+
                 (err, subjectDetails) =>  { 
                     if (err) 
                         res.send(err);
