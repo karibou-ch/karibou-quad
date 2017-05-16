@@ -56,6 +56,10 @@ export class VendorComponent implements OnInit {
 
     this.databaseService.vendor(this.route.snapshot.params['id']).subscribe(
       vendor => {
+
+        vendor['score_rate'] = Math.round(vendor['score']/vendor['nb_items']*1000)/10;
+        vendor['score_transactions_rate'] = Math.round(vendor['score']/vendor['nb_transactions']*1000)/10;
+
         this.vendor = vendor;
         this.name = vendor._id;
         this.amount = Math.round(vendor.amount*100)/100;
@@ -78,6 +82,8 @@ export class VendorComponent implements OnInit {
       vendors => {
 
         vendors.forEach( v => v['impacted_customers'] = _.chain(v['customers_details']).filter(d => d.score > 0).value().length);
+        vendors.forEach( v => v['score_rate'] = Math.round(v['score']/v['nb_items']*1000)/10);
+        vendors.forEach( v => v['score_transactions_rate'] = Math.round(v['score']/v['nb_transactions']*1000)/10);
 
         this.allScoreRate = _.map(vendors, v => v.score_rate).reduce( (a,b) => a+b, 0 );
         this.allAmount = _.map(vendors, v => v.amount).reduce( (a,b) => a+b, 0 );
