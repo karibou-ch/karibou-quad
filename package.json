@@ -1,0 +1,29 @@
+{
+  "name": "karibou-quad",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist;tsc -p lib/"
+  },
+  "files": [
+    "dist",
+    "index.js",
+    "index.d.ts"
+  ],
+  "private": false,
+  "keywords": [
+    "Library",
+    "karibou.ch"
+  ],
+  "contributors":[
+     "Joel Cavat (https://github.com/jcavat)",
+     "Olivier Evalet (https://github.com/evaletolab)"   
+  ],
+  "homepage": "https://github.com/karibou-ch/karibou-quad",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^2.2.0"
+  }
+}
