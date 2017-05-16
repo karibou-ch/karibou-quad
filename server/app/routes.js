@@ -61,10 +61,7 @@ module.exports = function(app) {
                         $match: searchVendorId
                     },
                     {
-                        $project: {
-                            items: 1,
-                            'customer': 1,
-                            oid: 1,
+                        $addFields: {
                             issue_missing_product: {
                                 $cond: [ { $or: [ { $eq: ['$items.issue', 'issue_missing_product'] }, {$and: [ {$eq: ['$items.status', 'failure'] }, {$eq: ['$items.issue', 'undefined'] }] }          ] } , 1, 0 ]
                             },
@@ -88,12 +85,7 @@ module.exports = function(app) {
                         }
                     },
                     {
-                        $project: {
-                            amount: 1,
-                            issue_missing_product: 1,
-                            issue_wrong_product_quality_failure: 1,
-                            issue_wrong_product_quality_fulfilled: 1,
-                            nb_items: 1,
+                        $addFields: {
                             nb_transactions: {$size:"$nb_transactions"}
                         }
                     },
@@ -143,30 +135,10 @@ module.exports = function(app) {
                         }
                     },
                     {
-                        $project: {
-                            customers: 1,
-                            issue_missing_product: 1,
-                            issue_wrong_product_quality_failure: 1,
-                            issue_wrong_product_quality_fulfilled: 1,
-                            nb_transactions: 1,
-                            amount: 1,
-                            nb_items: 1,
-                            customers_details: 1,
+                        $addFields: {
                             score: {
                                 $sum: '$customers_details.score'
                             }
-                        }
-                    },
-                    {
-                        $addFields: {
-                            score_rate: { $multiply: [{$divide: ['$score', '$nb_items']}, 100] },
-                            score_transactions_rate: { $multiply: [{$divide: ['$score', '$nb_transactions']}, 100] }
-                        }
-                    },
-                    {
-                        $sort: {
-                            'score_transactions_rate': -1,
-                            'amount': -1
                         }
                     }
                 ],
