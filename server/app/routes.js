@@ -68,11 +68,11 @@ module.exports = function(app) {
                     {$addFields: { date: '$shipping.when' }},
                     {
                         $project: {
-                            items: 1,
                             date: 1,
                             issue_missing_product: 1,
                             issue_wrong_product_quality_failure: 1,
                             issue_wrong_product_quality_fulfilled: 1,
+                            price_diff: { $subtract: ['$items.finalprice', '$items.price'] },
                             score: {
                                 $add: [
                                     { $multiply: ['$issue_missing_product', 1] },
