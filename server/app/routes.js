@@ -95,7 +95,17 @@ module.exports = function(app) {
                         }
                     },
                     {
-                        $addFields: { nb_transactions: {$size: '$transactions_set_id'}}
+                        $project: {
+                            _id: 0,
+                            year: '$_id.year',
+                            month: '$_id.month',
+                            issue_missing_product: 1,
+                            issue_wrong_product_quality_failure: 1,
+                            issue_wrong_product_quality_fulfilled: 1,
+                            score: 1,
+                            nb_items: 1,
+                            nb_transactions: {$size: '$transactions_set_id'}
+                        }
                     }
                 ],
                 (err, subjectDetails) =>  {
