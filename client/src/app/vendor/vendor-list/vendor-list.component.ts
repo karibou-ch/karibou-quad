@@ -16,11 +16,16 @@ export class VendorListComponent implements OnInit {
   ngOnInit() {
     this.databaseService.vendors().subscribe(
       vendors => {
-        vendors.forEach( v => v['score_rate'] = Math.round(v['score_rate']*10)/10);
-        vendors.forEach( v => v['score_transactions_rate'] = Math.round(v['score_transactions_rate']*10)/10);
+
+        vendors.forEach( v => v['score_rate'] = Math.round(v['score']/v['nb_items']*1000)/10);
+        vendors.forEach( v => v['score_transactions_rate'] = Math.round(v['score']/v['nb_transactions']*1000)/10);
         vendors.forEach( v => v['amount'] = Math.round(v['amount']*100)/100);
         vendors.forEach( v => v['impacted_customers'] = _.chain(v['customers_details']).filter(d => d.score > 0).value().length);
-        this.vendors = vendors;
+        this.vendors = _
+          .chain(vendors)
+          .sortBy(v => v['score_transactions_rate'])
+          .reverse()
+          .value();
       });
   }
 

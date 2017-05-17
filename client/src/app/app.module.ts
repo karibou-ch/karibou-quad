@@ -6,12 +6,13 @@ import { AppComponent } from './app.component';
 import { MdlModule } from '@angular-mdl/core';
 import { HomepageComponent } from './home/homepage/homepage.component';
 import {DatabaseService} from "./core/database.service";
-import { VendorLineComponent } from './home/vendor-line/vendor-line.component';
+import { VendorLineComponent } from './vendor/vendor-line/vendor-line.component';
 import { RouterModule } from '@angular/router';
 import { VendorComponent } from './vendor/vendor/vendor.component';
 import { BarchartComponent } from './charts/barchart/barchart.component';
 import { VendorListComponent } from './vendor/vendor-list/vendor-list.component';
-
+import { PiechartComponent } from './charts/piechart/piechart.component';
+import { CustomerListComponent } from './vendor/customer-list/customer-list.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { VendorListComponent } from './vendor/vendor-list/vendor-list.component'
     VendorLineComponent,
     VendorComponent,
     BarchartComponent,
-    VendorListComponent
+    VendorListComponent,
+    PiechartComponent,
+    CustomerListComponent
   ],
   imports: [
     BrowserModule,

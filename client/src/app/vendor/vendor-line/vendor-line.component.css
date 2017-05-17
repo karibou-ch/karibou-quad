@@ -1,0 +1,40 @@
+.danger {
+    color: red;
+}
+
+.warning {
+    color: darkorange;
+}
+
+li:hover {
+    background-color: lightgray;
+    -webkit-transition: background-color 0.2s linear;
+    -moz-transition: background-color 0.2s linear;
+    -ms-transition: background-color 0.2s linear;
+    -o-transition: background-color 0.2s linear;
+    transition: background-color 0.2s linear;
+}
+
+.text {
+    margin:auto;
+}
+
+.mdl-list__item-icon {
+    margin: auto;
+}
+
+.mdl-list__item-secondary-content {
+    min-width: 9%;
+}
+
+.mdl-list__item {
+  padding: 6px 0 6px 0;
+}
+.mdl-list__item--three-line {
+  height: auto;
+}
+
+.mdl-list__item-secondary-content {
+  height: auto;
+  margin: 0;
+}
