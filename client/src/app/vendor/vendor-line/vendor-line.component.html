@@ -1,0 +1,26 @@
+<li class="mdl-list__item mdl-list__item--three-line" [routerLink]="['/vendor', vendor._id]">
+    <span class="mdl-list__item-primary-content">
+        <i class="material-icons mdl-list__item-icon mdl-badge mdl-badge--overlap">store</i>
+        {{ vendor._id }}
+    </span>
+    <span class="mdl-list__item-secondary-content">
+        <i class="material-icons mdl-list__item-icon">attach_money</i>
+        <div class="text">{{vendor.amount}}</div>
+    </span>
+    <span class="mdl-list__item-secondary-content">
+        <i class="material-icons mdl-list__item-icon">people</i>
+        <div class="text">{{vendor.customers}}</div>
+    </span>
+    <span class="mdl-list__item-secondary-content" [ngClass]="{warning: isCustomerWarning(), danger: isCustomerDanger()}">
+        <i class="material-icons mdl-list__item-icon" [ngClass]="{warning: isCustomerWarning(), danger: isCustomerDanger()}">group</i>
+        <div class="text">{{vendor.impacted_customers_rate}}</div>
+    </span>
+    <span class="mdl-list__item-secondary-content" [ngClass]="{warning: isItemWarning(), danger: isItemDanger()}">
+        <i class="material-icons mdl-list__item-icon" [ngClass]="{warning: isItemWarning(), danger: isItemDanger()}">spa</i>
+        <div class="text">{{vendor.score_rate}}</div>
+    </span>
+    <span class="mdl-list__item-secondary-content" [ngClass]="{warning: isTransactionWarning(), danger: isTransactionDanger()}">
+        <i class="material-icons mdl-list__item-icon" [ngClass]="{warning: isTransactionWarning(), danger: isTransactionDanger()}">shopping_cart</i>
+        <div class="text">{{vendor.score_transactions_rate}}</div>
+    </span>
+</li>

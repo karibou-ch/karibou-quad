@@ -1,0 +1,94 @@
+<h3> {{ name }}</h3>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--4-col">
+        <h5>Chiffre de bases</h5>
+        <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <tbody>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Chiffre d'affaire</td>
+                <td>CHF {{ amount }} </td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Nombre d'articles vendus</td>
+                <td>{{ nbItems }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Nombre de transactions</td>
+                <td>{{ nbTransactions }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Nombre de consommateurs</td>
+                <td> {{ customers }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h5>Problèmes</h5>
+        <table class="mdl-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <tbody>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Score</td>
+                <td>{{ score }} </td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Score en % (transactions)</td>
+                <td>{{ scoreTransactionsRate }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Score en % (items)</td>
+                <td>{{ scoreRate }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Clients impactés</td>
+                <td>{{ impactedCustomers }} ({{ impactedCustomersRate }} %)</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Produits manquants</td>
+                <td> {{ issue_mp }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Problèmes identifés par le vendeur</td>
+                <td> {{ issue_wpq_failure }}</td>
+            </tr>
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">Problèmes identifés par l'acheteur</td>
+                <td> {{ issue_wpq_fulfilled }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="mdl-cell mdl-cell--4-col">
+        <h5>Taux d'erreurs par produits</h5>
+        <app-barchart [data]="issuesChart"></app-barchart>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col">
+        <h5>Taux d'erreurs par transactions</h5>
+        <app-barchart [data]="issuesTransactionsChart"></app-barchart>
+    </div>
+
+</div>
+<div class="mdl-grid">
+
+
+    <div class="mdl-cell mdl-cell--4-col">
+      <app-piechart [data]="issuesTypeChart" [title]="'Type d\'erreurs'"></app-piechart>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col">
+        <h5>Taux de clients impactés</h5>
+        <app-barchart [data]="customersChart"></app-barchart>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col">
+        <h5>Chiffre d'affaire</h5>
+        <app-barchart [data]="amountChart"></app-barchart>
+    </div>
+
+</div>
+<div class="mdl-grid">
+
+    <div class="mdl-cell mdl-cell--12-col">
+      <app-customer-list [customers]="customerDetails" [vendor]="vendor"></app-customer-list>
+    </div>
+
+</div>
