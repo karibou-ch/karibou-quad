@@ -37,6 +37,7 @@ export class VendorComponent implements OnInit {
   private issuesTypeChart = [];
 
   private issuesPerDate = {};
+  private amountPerDate = {};
 
   constructor(private databaseService: DatabaseService, private route: ActivatedRoute, private router: Router) { }
 
@@ -149,7 +150,8 @@ export class VendorComponent implements OnInit {
 
     this.databaseService.issues_per_dates(this.name).subscribe(
       record => {
-        let dataset = {'label':[], 'score': [], 'produits manquants': [], 'erreurs qualité (fulfilled)': [], 'erreurs qualité (failure)': []};
+        let dataset1 = {'label':[], 'score': [], 'produits manquants': [], 'erreurs qualité (fulfilled)': [], 'erreurs qualité (failure)': []};
+        let dataset2 = {'label':[], 'nombre de transactions': [], 'nombre de clients': [], 'nombre de produits': [], 'chiffre d\'affaire': [], 'différence de prix': []};
           _
           .chain(record)
           .sortBy( r => r.month)
@@ -157,16 +159,26 @@ export class VendorComponent implements OnInit {
           .forEach( r => {
             let key = r.month + '.' + r.year;
 
-            dataset['label'].push(key);
-            dataset['score'].push(r.score);
-            dataset['produits manquants'].push(r.issue_missing_product);
-            dataset['erreurs qualité (fulfilled)'].push(r.issue_wrong_product_quality_fulfilled)
-            dataset['erreurs qualité (failure)'].push(r.issue_wrong_product_quality_failure)
+            dataset1['label'].push(key);
+            dataset1['score'].push(r.score);
+            dataset1['produits manquants'].push(r.issue_missing_product);
+            dataset1['erreurs qualité (fulfilled)'].push(r.issue_wrong_product_quality_fulfilled);
+            dataset1['erreurs qualité (failure)'].push(r.issue_wrong_product_quality_failure);
+
+
+            dataset2['label'].push(key);
+            dataset2['nombre de transactions'].push(r['nb_transactions']);
+            dataset2['nombre de clients'].push(r['nb_customers']);
+            dataset2['nombre de produits'].push(r['nb_items']);
+            dataset2['chiffre d\'affaire'].push(r['finalprice']);
+            dataset2['différence de prix'].push(r['price_diff']);
+
 
           })
           .value();
 
-        this.issuesPerDate = dataset;
+        this.issuesPerDate = dataset1;
+        this.amountPerDate = dataset2;
       }
     );
   }

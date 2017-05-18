@@ -59,41 +59,65 @@
 
     </div>
 
-    <div class="mdl-cell mdl-cell--3-col">
-        <h5>Taux d'erreurs par produits</h5>
-        <app-barchart [data]="issuesChart"></app-barchart>
-    </div>
-    <div class="mdl-cell mdl-cell--3-col">
-        <h5>Taux d'erreurs par transactions</h5>
-        <app-barchart [data]="issuesTransactionsChart"></app-barchart>
-    </div>
-    <div class="mdl-cell mdl-cell--3-col">
-        <app-piechart [data]="issuesTypeChart" [title]="'Type d\'erreurs'"></app-piechart>
-    </div>
+    <div class="mdl-cell mdl-cell--9-col">
 
-</div>
-<div class="mdl-grid">
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+            <div class="mdl-tabs__tab-bar">
+                <a href="#global-panel" class="mdl-tabs__tab is-active">Graphiques globaux</a>
+                <a href="#time-panel" class="mdl-tabs__tab">Graphiques mensuels</a>
+                <a href="#details-panel" class="mdl-tabs__tab">Détails des clients</a>
+            </div>
 
-    <div class="mdl-cell mdl-cell--3-col">
-    </div>
+            <!-- Global stats -->
+            <div class="mdl-tabs__panel is-active" id="global-panel">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <h5>Taux d'erreurs par produits</h5>
+                        <app-barchart [data]="issuesChart"></app-barchart>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <h5>Taux d'erreurs par transactions</h5>
+                        <app-barchart [data]="issuesTransactionsChart"></app-barchart>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <app-piechart [data]="issuesTypeChart" [title]="'Type d\'erreurs'"></app-piechart>
+                    </div>
+                </div>
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <h5>Taux de clients impactés</h5>
+                        <app-barchart [data]="customersChart"></app-barchart>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <h5>Chiffre d'affaire</h5>
+                        <app-barchart [data]="amountChart"></app-barchart>
+                    </div>
+                </div>
+            </div>
 
-    <div class="mdl-cell mdl-cell--3-col">
-      <app-linechart [data]="issuesPerDate" [title]="'Problèmes'"></app-linechart>
-    </div>
-    <div class="mdl-cell mdl-cell--3-col">
-        <h5>Taux de clients impactés</h5>
-        <app-barchart [data]="customersChart"></app-barchart>
-    </div>
-    <div class="mdl-cell mdl-cell--3-col">
-        <h5>Chiffre d'affaire</h5>
-        <app-barchart [data]="amountChart"></app-barchart>
-    </div>
+            <!-- Panel per date -->
+            <div class="mdl-tabs__panel" id="time-panel">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <app-linechart [data]="issuesPerDate" [title]="'Problèmes'"></app-linechart>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col">
+                        <app-linechart [data]="amountPerDate" [title]="'Chiffres globaux'"></app-linechart>
+                    </div>
+                </div>
+            </div>
 
-</div>
-<div class="mdl-grid">
+            <!-- Panel per customers -->
+            <div class="mdl-tabs__panel" id="details-panel">
+                <div class="mdl-grid">
 
-    <div class="mdl-cell mdl-cell--12-col">
-      <app-customer-list [customers]="customerDetails" [vendor]="vendor"></app-customer-list>
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <app-customer-list [customers]="customerDetails" [vendor]="vendor"></app-customer-list>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
