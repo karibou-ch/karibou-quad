@@ -141,9 +141,10 @@ project runs from 1st of May 2017 to 2nd of June 2017 approximately (~5 weeks)
 * docker-compose
 
 ## Run all the project
-Simulate the mongodb database:
+Simulate the mongodb 3.4 database:
 ```
 cd test
+docker-compose build 
 docker-compose up -d
 ```
 

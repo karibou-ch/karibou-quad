@@ -1,4 +1,4 @@
-configure and run:
+configure and run MongoDB 3.4 with dump:
 ```
 docker-compose build
 docker-compose up -d
@@ -15,31 +15,3 @@ docker exec -i -t docker_mongo-karibou_1 bash
 ```
 
 
-document to record:
-```
-db.orders.aggregate( [ { $unwind: "$items"}, { $project: { vendors: 0 } } ] )
-```
-
-
-find customer id:
-```
-db.orders.aggregate( [ { $unwind: "$items"}, { $project: { id: { $eq: ["$oid", 2000003] }, items: 1 } } ] )
-```
-
-amount by vendors:
-
-```
-db.orders.aggregate( [{ $unwind: "$items" }, {$group: {_id: "$items.vendor", amount: { $sum: "$items.finalprice" } } }, {$sort: {amount: -1}} ] )
-```
-
-
-count amount and missing product:
-```
-db.orders.aggregate( [{ $unwind: "$items" }, { $project: {items: 1, issue_missing_product: {$cond: [ {$eq: ['$items.issue', 'issue_missing_product']}, 1, 0]  } } }, {$group: {_id: "$items.vendor", amount: { $sum: "$items.finalprice" }, issue: {$sum: '$issue_missing_product'} } } ] )
-```
-
-All vendors stat:
-```
-db.orders.aggregate( [{ $unwind: "$items" }, { $project: {items: 1, 'customer.id': 1, issue_missing_product: {$cond: [ {$eq: ['$items.issue', 'issue_missing_product']}, 1, 0]  } } }, {$group: {_id: { name: "$items.vendor", customer_id: "$customer.id" }, amount: { $sum: "$items.finalprice" }, issue: {$sum: '$issue_missing_product'}, nb_products: {$sum: 1}  } }, {$group: {_id: '$_id.name', customers: {$sum: 1}}} ] )
-
-```
