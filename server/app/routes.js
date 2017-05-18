@@ -34,8 +34,8 @@ module.exports = function(app) {
             .aggregate([
                     {
                         $match: {
-                            'customer.id': +req.params.customerid,
-                            'items.vendor': 'sandrine-guy-producteurs'
+                            'customer.id': +req.params['customerid'],
+                            'items.vendor': req.params['vendorid']
                         },
                     }
                 ],
@@ -62,7 +62,8 @@ module.exports = function(app) {
                             },
                             issue_wrong_product_quality_fulfilled: {
                                 $cond: [ { $and: [{ $eq: ['$items.issue', 'issue_wrong_product_quality'] }, {$eq: ['$items.status', 'fulfilled'] }]}, 1, 0 ]
-                            }
+                            },
+                            customer_id: '$customer.id'
                         }
                     },
                     {$addFields: { date: '$shipping.when' }},
@@ -73,7 +74,9 @@ module.exports = function(app) {
                             issue_wrong_product_quality_failure: 1,
                             issue_wrong_product_quality_fulfilled: 1,
                             oid: 1,
-                            price_diff: { $subtract: ['$items.finalprice', '$items.price'] },
+                            customer_id: 1,
+                            price_diff: { $subtract: ['$items.finalprice', '$items.estimatedprice'] },
+                            finalprice: '$items.finalprice',
                             score: {
                                 $add: [
                                     { $multiply: ['$issue_missing_product', 1] },
@@ -91,7 +94,10 @@ module.exports = function(app) {
                             issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
                             score: {$sum: '$score'},
                             nb_items: {$sum: 1},
-                            transactions_set_id: {$addToSet: "$oid"}
+                            transactions_set_id: {$addToSet: "$oid"},
+                            clients_set_id: {$addToSet: "$customer_id"},
+                            price_diff: {$sum: '$pricediff'},
+                            finalprice: {$sum: '$finalprice'}
                         }
                     },
                     {
@@ -104,7 +110,10 @@ module.exports = function(app) {
                             issue_wrong_product_quality_fulfilled: 1,
                             score: 1,
                             nb_items: 1,
-                            nb_transactions: {$size: '$transactions_set_id'}
+                            nb_transactions: {$size: '$transactions_set_id'},
+                            nb_customers: {$size: '$clients_set_id'},
+                            price_diff: 1,
+                            finalprice: 1
                         }
                     }
                 ],
