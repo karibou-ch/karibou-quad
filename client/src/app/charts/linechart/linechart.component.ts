@@ -25,7 +25,7 @@ export class LinechartComponent implements OnInit {
 
     // Fix: Clear all old chart
     if (this.myChart !== undefined){
-      this.myChart;
+      this.myChart.destroy();
     }
     console.log(this.data);
 
