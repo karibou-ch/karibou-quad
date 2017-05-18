@@ -27,12 +27,10 @@ export class LinechartComponent implements OnInit {
     if (this.myChart !== undefined){
       this.myChart.destroy();
     }
-    console.log(this.data);
 
     const ctx = this.chartContainer.nativeElement;
     const backgroundColors = this.fillRgb(0.1);
     const borderColors = this.fillRgb(1);
-    console.log(borderColors);
 
     this.myChart = new Chart(ctx, {
       type: 'line',
@@ -41,7 +39,7 @@ export class LinechartComponent implements OnInit {
         datasets: _
           .chain(Object.keys(this.data))
           .filter( k => k !== 'label' )
-          .map( (k,i) => { console.log(i); return {
+          .map( (k,i) => { return {
             label: k,
             data: this.data[k],
             fill: true,
