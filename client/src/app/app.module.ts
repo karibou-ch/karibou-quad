@@ -13,6 +13,7 @@ import { BarchartComponent } from './charts/barchart/barchart.component';
 import { VendorListComponent } from './vendor/vendor-list/vendor-list.component';
 import { PiechartComponent } from './charts/piechart/piechart.component';
 import { CustomerListComponent } from './vendor/customer-list/customer-list.component';
+import { LinechartComponent } from './charts/linechart/linechart.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CustomerListComponent } from './vendor/customer-list/customer-list.comp
     BarchartComponent,
     VendorListComponent,
     PiechartComponent,
-    CustomerListComponent
+    CustomerListComponent,
+    LinechartComponent
   ],
   imports: [
     BrowserModule,

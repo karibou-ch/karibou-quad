@@ -72,6 +72,7 @@ module.exports = function(app) {
                             issue_missing_product: 1,
                             issue_wrong_product_quality_failure: 1,
                             issue_wrong_product_quality_fulfilled: 1,
+                            oid: 1,
                             price_diff: { $subtract: ['$items.finalprice', '$items.price'] },
                             score: {
                                 $add: [
@@ -81,6 +82,30 @@ module.exports = function(app) {
                                 ]
                             }
                         }
+                    },
+                    {
+                        $group:{
+                            _id: {year: {$year: '$date'}, month: {$month: '$date'}},
+                            issue_missing_product: {$sum: '$issue_missing_product'},
+                            issue_wrong_product_quality_failure: {$sum: '$issue_wrong_product_quality_failure'},
+                            issue_wrong_product_quality_fulfilled: {$sum: '$issue_wrong_product_quality_fulfilled'},
+                            score: {$sum: '$score'},
+                            nb_items: {$sum: 1},
+                            transactions_set_id: {$addToSet: "$oid"}
+                        }
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            year: '$_id.year',
+                            month: '$_id.month',
+                            issue_missing_product: 1,
+                            issue_wrong_product_quality_failure: 1,
+                            issue_wrong_product_quality_fulfilled: 1,
+                            score: 1,
+                            nb_items: 1,
+                            nb_transactions: {$size: '$transactions_set_id'}
+                        }
                     }
                 ],
                 (err, subjectDetails) =>  {
@@ -88,10 +113,10 @@ module.exports = function(app) {
                         res.send(err);
                     }
 
-                    const date = _.groupBy(subjectDetails, i => new Date(Date.parse(i['date'])).getFullYear());
-                    _.forEach(date, (v,k) => date[k] = _.groupBy(v, i => new Date(Date.parse(i['date'])).getMonth()+1));
+                    //const date = _.groupBy(subjectDetails, i => new Date(Date.parse(i['date'])).getFullYear());
+                    //_.forEach(date, (v,k) => date[k] = _.groupBy(v, i => new Date(Date.parse(i['date'])).getMonth()+1));
 
-                    res.json(date);
+                    res.json(subjectDetails);
 
                 }
             );

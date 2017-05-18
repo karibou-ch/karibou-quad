@@ -22,4 +22,10 @@ export class DatabaseService {
     );
   }
 
+  issues_per_dates(id: string) {
+    return this.http.get(url + `vendors/${id}/date`).map(
+      (r: Response) => r.json()
+    );
+  }
+
 }

@@ -36,10 +36,13 @@ export class VendorComponent implements OnInit {
   private customersChart = [];
   private issuesTypeChart = [];
 
+  private issuesPerDate = {};
+
   constructor(private databaseService: DatabaseService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.name = params['id'];
       this.init();
     });
 
@@ -134,11 +137,36 @@ export class VendorComponent implements OnInit {
         _.reverse(this.customersChart);
 
         this.issuesTypeChart = [
-          ['Erreurs qualités (fulfilled)', this.issue_wpq_fulfilled],
-          ['Erreurs qualités (failure)', this.issue_wpq_failure],
+          ['Erreurs qualité (fulfilled)', this.issue_wpq_fulfilled],
+          ['Erreurs qualité (failure)', this.issue_wpq_failure],
           ['Produits manquants', this.issue_mp]
         ];
 
+      }
+    );
+
+
+
+    this.databaseService.issues_per_dates(this.name).subscribe(
+      record => {
+        let dataset = {'label':[], 'score': [], 'produits manquants': [], 'erreurs qualité (fulfilled)': [], 'erreurs qualité (failure)': []};
+          _
+          .chain(record)
+          .sortBy( r => r.month)
+          .sortBy( r => r.year)
+          .forEach( r => {
+            let key = r.month + '.' + r.year;
+
+            dataset['label'].push(key);
+            dataset['score'].push(r.score);
+            dataset['produits manquants'].push(r.issue_missing_product);
+            dataset['erreurs qualité (fulfilled)'].push(r.issue_wrong_product_quality_fulfilled)
+            dataset['erreurs qualité (failure)'].push(r.issue_wrong_product_quality_failure)
+
+          })
+          .value();
+
+        this.issuesPerDate = dataset;
       }
     );
   }
