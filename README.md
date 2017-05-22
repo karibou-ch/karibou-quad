@@ -119,8 +119,9 @@ General understanding of any of these:
 - NPM packaging systems
 
 
-# Milestones
-project runs from 1st of May 2017 to 2nd of June 2017 approximately (~5 weeks)
+# First iteration: May 2017
+## Milestones
+Project runs from 1st of May 2017 to 2nd of June 2017 approximately (~5 weeks to 40%)
 - Information retrieval ~ 1 week
   - state of the art, analysis of existing systems, ... 
 - Analysis of the problem ~ 1 week
@@ -132,30 +133,39 @@ project runs from 1st of May 2017 to 2nd of June 2017 approximately (~5 weeks)
   - define rules
   - define score
 
-# JS ecosystem prototypes
-## Dependencies
+## Documentation
+A [wiki](https://github.com/karibou-ch/karibou-quad/wiki) is provide for more details.
+
+## Prototype
+A prototype is developed to illustrate statistics from JSON data with JS ecosystem technologies:
+* MongoDB 3.4 to import JSON and exploit the power of aggragation queries
+* API Rest with node and express to extract mapped data
+* Angular 4 and Chart.js to plots statistics
+
+These technologies are closed to those used by production current solution.
+
+## Dependencies to run the project
 * npm
 * node
-* ng2-cli
 * docker
 * docker-compose
 
 ## Run all the project
-Simulate the mongodb 3.4 database:
+### Simulate the mongodb 3.4 database in a Docker container
+The build import the JSON into the MongoDB database and update dates in a string format to ISODate format. In the
+`test` folder, run:
 ```
-cd test
 docker-compose build 
 docker-compose up -d
 ```
 
-Run the Rest API for the statistics requests
+Start the Rest API for the statistics requests. In the `server` folder, run:
 ```
-cd server
 npm install
 node server.js
 ```
 
-Run the client dashboard:
+Start the client dashboard. In the `client` folder, run:
 ```
 cd client
 npm install
@@ -163,6 +173,7 @@ ng serve
 ```
 
 Watch the stats on localhost:4200. Enjoy!
+See the [wiki](https://github.com/karibou-ch/karibou-quad/wiki) for more documentation.
 
 
 
