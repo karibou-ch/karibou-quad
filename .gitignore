@@ -43,3 +43,10 @@ jspm_packages
 *.iml
 .idea
 *.swp
+*.Rhistory
+
+# Wiki folder
+*.wiki
+
+# Python prototype output
+*.png
