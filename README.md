@@ -36,6 +36,14 @@ Difficulty level: intermediate
 Mentors: Florent Gluck, Olivier Evalet
 ```
 
+## Authors & spcial thanks :heart:
+
+- Joel Cavat (https://github.com/jcavat)
+- Olivier Evalet, https://github.com/evaletolab
+- Florent Gluck @HEPIA, https://github.com/florentgluck
+- Noria Foukia Enseignante en mathématiques @HEPIA 
+
+
 
 ## Task Idea
 * [QUALITY.md](QUALITY.md)
