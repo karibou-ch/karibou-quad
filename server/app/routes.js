@@ -2,9 +2,15 @@ const _ = require('lodash');
 
 var Transactions = connectionsubject.model('', {}, 'orders');
 
+/**
+ * The API Documentation is available at: https://github.com/karibou-ch/karibou-quad/wiki/API-Documentation
+ */
 module.exports = function(app) {
 
-
+    /**
+     * :vendorid - the vendor's id (string)
+     * :customerid - the customer's id (number)
+     */
     app.get('/transactions/:vendorid/:customerid', (req, res) => {
 
         Transactions
@@ -24,6 +30,9 @@ module.exports = function(app) {
                 });
     });
 
+    /**
+     * :id - the vendor's id (string)
+     */
     app.get('/vendors/:id/date', (req, res) => {
         Transactions
             .aggregate([
@@ -108,6 +117,9 @@ module.exports = function(app) {
             );
     });
 
+    /**
+     * :id - the vendors' id (string)
+     */
     app.get('/vendors/:id?', (req, res) => {
 
         const searchVendorId = req.params.id === undefined ? {} : { 'items.vendor': req.params.id };
