@@ -5,29 +5,6 @@ var Transactions = connectionsubject.model('', {}, 'orders');
 module.exports = function(app) {
 
 
-    app.get('/list/vendors', (req, res) => {
-
-        Transactions
-            .aggregate([
-                {
-                    $unwind: '$items'
-                },
-                {
-                    $project: {'items.vendor': 1}
-                },
-                {
-                    $group: {_id: '$items.vendor'}
-                }
-            ],
-
-            (err, subjectDetails) =>  { 
-                if (err) {
-                    res.send(err);
-                }
-                res.json(subjectDetails.map( v => v['_id'] ));
-            })
-    });
-
     app.get('/transactions/:vendorid/:customerid', (req, res) => {
 
         Transactions
