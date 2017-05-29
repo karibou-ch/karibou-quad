@@ -153,6 +153,7 @@ These technologies are closed to those used by production current solution.
 
 ## Dependencies to run the project
 * npm and node ([Installation of Node on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04))
+* angular cli [Angular CLI](https://github.com/angular/angular-cli)
 * docker ([Installation of docker on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04))
 * docker-compose ([Installing Docker Compose on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04))
 
