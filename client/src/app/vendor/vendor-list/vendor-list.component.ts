@@ -17,6 +17,7 @@ export class VendorListComponent implements OnInit {
     this.databaseService.vendors().subscribe(
       vendors => {
 
+        // TODO (jca): compute, transform and sort these fields into the API Rest Server
         vendors.forEach( v => v['score_rate'] = Math.round(v['score']/v['nb_items']*1000)/10);
         vendors.forEach( v => v['score_transactions_rate'] = Math.round(v['score']/v['nb_transactions']*1000)/10);
         vendors.forEach( v => v['amount'] = Math.round(v['amount']*100)/100);
