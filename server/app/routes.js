@@ -108,8 +108,9 @@ module.exports = function(app) {
                         res.send(err);
                     }
 
-                    //const date = _.groupBy(subjectDetails, i => new Date(Date.parse(i['date'])).getFullYear());
-                    //_.forEach(date, (v,k) => date[k] = _.groupBy(v, i => new Date(Date.parse(i['date'])).getMonth()+1));
+                    // TODO (jca): Move some logic here (score, sort, ...)
+                    // see doc for improvements at:
+                    // https://github.com/karibou-ch/karibou-quad/wiki/Developpement#user-content-améliorations-et-poursuite-des-travaux
 
                     res.json(subjectDetails);
 
@@ -219,6 +220,11 @@ module.exports = function(app) {
                     if (err) {
                         res.send(err);
                     }
+
+                    // TODO (jca): Move some logic here (score, sort, ...)
+                    // see doc for improvements at:
+                    // https://github.com/karibou-ch/karibou-quad/wiki/Developpement#user-content-améliorations-et-poursuite-des-travaux
+
                     res.json(subjectDetails);
                 }
         );
