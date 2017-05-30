@@ -149,6 +149,7 @@ A prototype is developed to illustrate statistics from JSON data with JS ecosyst
 * MongoDB 3.4 to import JSON and exploit the power of aggragation queries (See [Development documentation](https://github.com/karibou-ch/karibou-quad/wiki/Developpement)).
 * API Rest with node and express to extract mapped data (See [API documentation](https://github.com/karibou-ch/karibou-quad/wiki/API-Documentation)).
 * Angular 4 and Chart.js to plots statistics (See [Development documentation](https://github.com/karibou-ch/karibou-quad/wiki/Developpement)).
+
 These technologies are closed to those used by production current solution.
 
 ## Dependencies to run the project
