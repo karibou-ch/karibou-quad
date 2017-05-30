@@ -159,7 +159,7 @@ These technologies are closed to those used by production current solution.
 * docker-compose ([Installing Docker Compose on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04))
 
 ## Run all the project
-##### Simulate the mongodb 3.4 database in a Docker container
+##### Simulate the mongodb 3.4 database in a Docker container ([more details here](https://github.com/karibou-ch/karibou-quad/tree/master/test))
 The build import the JSON into the MongoDB database and update dates in a string format to ISODate format. In the
 `test` folder, run:
 ```
@@ -168,7 +168,7 @@ docker-compose build
 docker-compose up -d
 ```
 
-##### Start Rest API
+##### Start Rest API ([more details here](https://github.com/karibou-ch/karibou-quad/tree/master/server))
 Start the Rest API for the statistics requests. In the `server` folder, run:
 ```
 cd karibou-quad/server
@@ -176,7 +176,7 @@ npm install
 node server.js
 ```
 
-##### Start the dashboard
+##### Start the dashboard  ([more details here](https://github.com/karibou-ch/karibou-quad/tree/master/client))
 Start the client dashboard. In the `client` folder, run:
 ```
 cd karibou-quad/client
