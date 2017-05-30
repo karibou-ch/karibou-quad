@@ -159,7 +159,7 @@ These technologies are closed to those used by production current solution.
 * docker-compose ([Installing Docker Compose on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04))
 
 ## Run all the project
-##### Simulate the mongodb 3.4 database in a Docker container ([more details here](https://github.com/karibou-ch/karibou-quad/tree/master/test))
+##### Simulate the mongodb 3.4 database in a Docker container ([more details here](https://github.com/karibou-ch/karibou-quad/tree/master/tests))
 The build import the JSON into the MongoDB database and update dates in a string format to ISODate format. In the
 `test` folder, run:
 ```
