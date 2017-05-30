@@ -11,6 +11,8 @@ import {Router} from "@angular/router";
 export class PiechartComponent implements OnInit {
 
   @ViewChild('piechart') private chartContainer: ElementRef;
+
+  // TODO: Describe more precisely the input structure
   @Input() private data: Array<any>;
   @Input() private title: string = "";
 
@@ -23,7 +25,7 @@ export class PiechartComponent implements OnInit {
   }
 
   ngOnChanges(){
-    // Fix: Clear all old chart
+    // Fix/Hack: Clear all old chart
     if (this.myChart !== undefined){
       this.myChart.destroy();
     }

@@ -17,7 +17,9 @@ export class VendorListComponent implements OnInit {
     this.databaseService.vendors().subscribe(
       vendors => {
 
-        // TODO (jca): compute, transform and sort these fields into the API Rest Server
+        // TODO (jca): compute, transform and sort these fields into the API Rest Server. See doc at:
+        // https://github.com/karibou-ch/karibou-quad/wiki/Developpement#user-content-améliorations-et-poursuite-des-travaux
+
         vendors.forEach( v => v['score_rate'] = Math.round(v['score']/v['nb_items']*1000)/10);
         vendors.forEach( v => v['score_transactions_rate'] = Math.round(v['score']/v['nb_transactions']*1000)/10);
         vendors.forEach( v => v['amount'] = Math.round(v['amount']*100)/100);

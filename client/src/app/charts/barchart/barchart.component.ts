@@ -12,6 +12,8 @@ import {Router} from "@angular/router";
 export class BarchartComponent implements OnInit {
 
   @ViewChild('barchart') private chartContainer: ElementRef;
+
+  // TODO: Describe more precisely the input structure
   @Input() private data: Array<any>;
   @Input() private title: string = "";
 
@@ -24,7 +26,7 @@ export class BarchartComponent implements OnInit {
 
   ngOnChanges(){
 
-    // Fix: Clear all old chart
+    // Fix/Hack: Clear all old chart
     if (this.myChart !== undefined){
       this.myChart.destroy();
     }

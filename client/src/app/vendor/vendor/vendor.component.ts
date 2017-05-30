@@ -58,6 +58,11 @@ export class VendorComponent implements OnInit {
     this.issuesTypeChart = [];
 
 
+
+    // TODO (jca): Move logic to the server. See doc at:
+    // https://github.com/karibou-ch/karibou-quad/wiki/Developpement#user-content-améliorations-et-poursuite-des-travaux
+
+
     this.databaseService.vendor(this.route.snapshot.params['id']).subscribe(
       vendor => {
 

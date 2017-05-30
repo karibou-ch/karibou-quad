@@ -13,6 +13,8 @@ export class LinechartComponent implements OnInit {
   constructor() { }
 
   @ViewChild('linechart') private chartContainer: ElementRef;
+
+  // TODO: Describe more precisely the input structure
   @Input() private data: Array<any>;
   @Input() private title: string = "";
 
@@ -23,7 +25,7 @@ export class LinechartComponent implements OnInit {
 
   ngOnChanges(){
 
-    // Fix: Clear all old chart
+    // Fix/Hack: Clear all old chart
     if (this.myChart !== undefined){
       this.myChart.destroy();
     }
