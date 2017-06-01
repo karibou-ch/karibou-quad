@@ -161,9 +161,9 @@ These technologies are closed to those used by production current solution.
 ## Run all the project
 ##### Simulate the mongodb 3.4 database in a Docker container ([more details here](https://github.com/karibou-ch/karibou-quad/tree/master/tests))
 The build import the JSON into the MongoDB database and update dates in a string format to ISODate format. In the
-`test` folder, run:
+`tests` folder, run:
 ```
-cd karibou-quad/test
+cd karibou-quad/tests
 docker-compose build 
 docker-compose up -d
 ```
