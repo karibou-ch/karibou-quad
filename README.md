@@ -154,11 +154,16 @@ These technologies are closed to those used by production current solution.
 
 ## Dependencies to run the project
 * npm and node ([Installation of Node on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04))
-* angular cli [Angular CLI](https://github.com/angular/angular-cli)
 * docker ([Installation of docker on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04))
 * docker-compose ([Installing Docker Compose on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04))
 
 ## Run all the project
+##### Configure Docker
+You can skip this step if you already have docker configured. This command allows you to start docker without root rights.
+```
+sudo systemctl start docker
+```
+
 ##### Simulate the mongodb 3.4 database in a Docker container ([more details here](https://github.com/karibou-ch/karibou-quad/tree/master/tests))
 The build import the JSON into the MongoDB database and update dates in a string format to ISODate format. In the
 `tests` folder, run:
@@ -181,8 +186,11 @@ Start the client dashboard. In the `client` folder, run:
 ```
 cd karibou-quad/client
 npm install
-ng serve
+./node_modules/@angular/cli/bin/ng serve
 ```
+
+If [Angular CLI](https://github.com/angular/angular-cli) is installed on your machine, you can simply run `ng serve`.
+
 
 Watch the stats on localhost:4200. Enjoy!
 See the [wiki](https://github.com/karibou-ch/karibou-quad/wiki) for more documentation.
