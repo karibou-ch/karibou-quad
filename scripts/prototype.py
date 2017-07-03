@@ -27,7 +27,7 @@ with open('../tests/data/orders.json') as json_file:
 
     def add_transaction_info_on_item(item, transaction):        
         customer = transaction['customer']
-        customer = customer['id']['floatApprox'] if isinstance(customer['id'], dict) else customer['id']
+        customer = int(customer['id']['$numberLong']) if isinstance(customer['id'], dict) else int(customer['id'])
         oid = transaction['oid']
         item.update({ 'customer': customer })
         item.update({ 'id_transaction': oid })
@@ -53,8 +53,8 @@ with open('../tests/data/orders.json') as json_file:
                 'missing': 1 if item['status'] == 'failure' or ('issue' in item.keys() and item['issue'] == 'issue_missing_product') else 0,
                 'qlty': 1 if 'issue' in item.keys() and item['issue'] == 'issue_wrong_product_quality' else 0,
                 'id_transaction': item['id_transaction'],
-                'price_diff': item['finalprice'] - item['price'],
-                'price_diff_rate': (item['finalprice'] - item['price'])/item['price']*100 if item['price'] != 0 else 0,
+                'price_diff': item['finalprice'] - item['estimatedprice'],
+                'price_diff_rate': (item['finalprice'] - item['estimatedprice'])/item['estimatedprice']*100 if item['estimatedprice'] != 0 else 0,
                 'date': "{}.{}.{}".format(date.day, date.month, date.year)
             }
 
@@ -73,6 +73,7 @@ with open('../tests/data/orders.json') as json_file:
     c = []
     v = []
     mp = {}
+
     for customer, items in groupby(sorted(mapped_items, key=lambda mi: mi['customer']), key=lambda mi: mi['customer']):
         c.append(customer)
         if customer not in mp.keys():
