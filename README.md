@@ -79,23 +79,27 @@ Orders *(size ~1200)* contains all information about user, products, time, etc. 
     ],
     "items": [
       {
-        "title": "Mini chevrot",
-        "sku": 1000020,
-        "vendor": "les-fromages-de-gaetan",
-        "image": "//uploadcare.com/uuid",
-        "price": 4.9,
-        "finalprice": 4.9, /** Diff between order estimation and captured amount*/
+        "title": "Hommos",
+        "sku": 1000013,
+        "vendor": "crocorient",
+        "image": "",
+        "estimatedprice": 5,
+        "finalprice": 5,
         "qty": 1,
-        "category": "Produits laitiers"
-        "issue": "issue_missing_product",
-        "status": "failure"
-      },
+        "category": "Traiteur",
+        "status": "failure",
+        "issue": {
+          "name": "issue_missing_product",
+          "missing_product": 1,
+          "quality_collect": 0,
+          "quality_feedback": 0
+        },
       ...
 ``` 
 * un client aime des produits `order.cutomer.likes`
 * un article d'une commande `items.status` à le statut `"failure", "fulfilled"`
-* lors d'une annulation, il peut y avoir le problème `items.issue` suivant
-  * `"issue_no_issue"` **== pas grâve/0** , 
+* lors d'une annulation, il peut y avoir le problème `items.issue.name` suivant
+  * undefined **== pas grâve/0** , 
   * `"issue_missing_product"` **== problématique/1**, 
   * `"issue_wrong_product_quality"` et `"items.status===failure"` **== très problématique/2**,
   * `"issue_wrong_product_quality"` et `"items.status===fulfilled"` **== létal/4**,
