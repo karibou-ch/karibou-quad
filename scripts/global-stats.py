@@ -27,7 +27,7 @@ def export_to_csv(dictionnary, filename):
         dict_writer.writeheader()
         dict_writer.writerows(dictionnary)
 
-with open('../tests/data/orders.json') as json_file:
+with open('../test/data/orders.json') as json_file:
 
     # Prepare and transform transacions/items -------------------------------------------------------------------------------
     transactions = json.load(json_file)
